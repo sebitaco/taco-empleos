@@ -3,7 +3,7 @@ export default function TestPage() {
     <main className="min-h-screen p-8">
       <div className="container mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8">
-          Test Page for PR
+          Test Page for PR - Workflow Verified!
         </h1>
         <p className="text-center text-lg text-muted-foreground">
           This is a placeholder page to test PR and deployment functionality.

@@ -4,17 +4,5 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["iad1"],
-  "env": {
-    "DB_URL": "@db_url",
-    "SITE_URL": "@site_url",
-    "SENTRY_DSN": "@sentry_dsn"
-  },
-  "build": {
-    "env": {
-      "DB_URL": "@db_url",
-      "SITE_URL": "@site_url",
-      "SENTRY_DSN": "@sentry_dsn"
-    }
-  }
+  "regions": ["iad1"]
 }
