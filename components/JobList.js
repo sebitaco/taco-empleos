@@ -209,9 +209,8 @@ export default function JobList() {
                   <h3 className="font-semibold text-lg text-gray-900 mb-1">
                     {job.title}
                   </h3>
-                  <div className="flex items-center space-x-4 text-sm text-gray-600 mb-1">
-                    <span className="font-medium">{job.company}</span>
-                    <span>{job.location}</span>
+                  <div className="text-sm text-gray-600 mb-1">
+                    {job.location}
                   </div>
                 </div>
 
