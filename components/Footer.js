@@ -22,7 +22,7 @@ export default function Footer() {
             <div className="flex items-center mb-6">
               <div className="w-32 h-32 rounded-lg flex items-center justify-center">
                 <img 
-                  src="/logos/Running Fest (5).svg" 
+                  src="/logos/TACO (1).svg" 
                   alt="Logo" 
                   className="w-32 h-32 object-contain"
                 />
@@ -48,8 +48,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Resources & Contact */}
-          <div>
+          {/* Resources & Contact - Right Side */}
+          <div className="text-right">
             <h3 className="font-semibold text-lg mb-4">Recursos</h3>
             <ul className="space-y-2 mb-6">
               <li>
@@ -65,9 +65,11 @@ export default function Footer() {
             </ul>
 
             <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-sm text-gray-300">
+              <div className="flex items-center justify-end space-x-2 text-sm text-gray-300">
                 <Mail className="w-4 h-4" />
-                <span>hola@tacoempleados.com</span>
+                <a href="mailto:sebi@tacoempleos.com.mx" className="hover:text-white transition-colors">
+                  sebi@tacoempleos.com.mx
+                </a>
               </div>
             </div>
           </div>

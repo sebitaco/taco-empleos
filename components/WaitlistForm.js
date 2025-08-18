@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Turnstile } from '@marsidev/react-turnstile'
 import { trackEvent } from '@/components/Analytics'
 import { Button } from '@/components/ui/button'
@@ -9,6 +9,15 @@ import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Users, Briefcase, Mail, MapPin, Heart } from 'lucide-react'
+import { 
+  sanitizeEmail, 
+  sanitizeCity, 
+  sanitizeCompanyName, 
+  sanitizeRole, 
+  sanitizeGeneralText,
+  hasXSSPattern,
+  sanitizeErrorMessage
+} from '@/lib/security'
 
 const cities = [
   "Ciudad de México", "Guadalajara", "Monterrey", "Puebla", "Tijuana", 
@@ -41,33 +50,69 @@ export default function WaitlistForm() {
   const [formData, setFormData] = useState({
     email: '',
     city: '',
-    source: '',
     consent: false,
     // Employer fields
     companyName: '',
     needs: '',
     // Candidate fields
-    role: '',
-    experienceYears: '',
-    preferredCity: ''
+    role: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState({})
   const [turnstileToken, setTurnstileToken] = useState('')
+  const [csrfToken, setCSRFToken] = useState('')
+  
+  // Fetch CSRF token on component mount
+  useEffect(() => {
+    const fetchCSRFToken = async () => {
+      try {
+        const response = await fetch('/api/csrf')
+        if (response.ok) {
+          const data = await response.json()
+          setCSRFToken(data.token)
+        } else {
+          console.error('Failed to fetch CSRF token')
+        }
+      } catch (error) {
+        console.error('Error fetching CSRF token:', error)
+      }
+    }
+    
+    fetchCSRFToken()
+  }, [])
 
   const validateForm = () => {
     const newErrors = {}
 
+    // Basic required field validation
     if (!formData.email) newErrors.email = 'El email es requerido'
     if (!formData.city) newErrors.city = 'La ciudad es requerida'
     if (!formData.consent) newErrors.consent = 'Debes aceptar la política de privacidad'
-    if (!turnstileToken) newErrors.turnstile = 'Por favor completa la verificación de seguridad'
+    if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) newErrors.turnstile = 'Por favor completa la verificación de seguridad'
+
+    // XSS validation for all text inputs
+    if (formData.email && hasXSSPattern(formData.email)) {
+      newErrors.email = 'El email contiene caracteres no válidos'
+    }
+    
+    if (formData.city && hasXSSPattern(formData.city)) {
+      newErrors.city = 'La ciudad contiene caracteres no válidos'
+    }
+
+    if (formData.companyName && hasXSSPattern(formData.companyName)) {
+      newErrors.companyName = 'El nombre de la empresa contiene caracteres no válidos'
+    }
+
+    if (formData.role && hasXSSPattern(formData.role)) {
+      newErrors.role = 'El puesto contiene caracteres no válidos'
+    }
+
+    if (formData.needs && hasXSSPattern(formData.needs)) {
+      newErrors.needs = 'La descripción contiene caracteres no válidos'
+    }
 
     if (audience === 'employer') {
       if (!formData.companyName) newErrors.companyName = 'El nombre de la empresa es requerido'
-    } else if (audience === 'candidate') {
-      if (!formData.role) newErrors.role = 'El rol de interés es requerido'
-      if (!formData.experienceYears) newErrors.experienceYears = 'Los años de experiencia son requeridos'
     }
 
     setErrors(newErrors)
@@ -81,6 +126,11 @@ export default function WaitlistForm() {
       setErrors({ audience: 'Selecciona si eres empleador o candidato' })
       return
     }
+    
+    if (!csrfToken) {
+      setErrors({ submit: 'Error de seguridad. Por favor recarga la página.' })
+      return
+    }
 
     if (!validateForm()) return
 
@@ -91,24 +141,31 @@ export default function WaitlistForm() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
         },
         body: JSON.stringify({
-          ...formData,
+          email: formData.email,
+          city: formData.city,
+          consent: formData.consent,
+          companyName: formData.companyName,
+          needs: formData.needs,
+          role: formData.role,
           audience,
           turnstileToken
         }),
       })
 
       if (response.ok) {
-        // Track successful signup
+        // Track successful signup with sanitized data
         trackEvent('waitlist_submit', {
-          audience,
-          city: formData.city
+          audience: audience,
+          city: sanitizeCity(formData.city)
         })
         window.location.href = '/thanks'
       } else {
         const errorData = await response.json()
-        setErrors({ submit: errorData.error || 'Error al enviar el formulario' })
+        const errorMessage = sanitizeErrorMessage(errorData.error || 'Error al enviar el formulario')
+        setErrors({ submit: errorMessage })
       }
     } catch (error) {
       setErrors({ submit: 'Error de conexión. Intenta nuevamente.' })
@@ -118,7 +175,31 @@ export default function WaitlistForm() {
   }
 
   const updateFormData = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }))
+    let sanitizedValue = value
+
+    // Sanitize input based on field type
+    switch (field) {
+      case 'email':
+        sanitizedValue = sanitizeEmail(value)
+        break
+      case 'city':
+        sanitizedValue = sanitizeCity(value)
+        break
+      case 'companyName':
+        sanitizedValue = sanitizeCompanyName(value)
+        break
+      case 'role':
+        sanitizedValue = sanitizeRole(value)
+        break
+      case 'needs':
+        sanitizedValue = sanitizeGeneralText(value)
+        break
+      default:
+        // For other fields, just trim
+        sanitizedValue = typeof value === 'string' ? value.trim() : value
+    }
+
+    setFormData(prev => ({ ...prev, [field]: sanitizedValue }))
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }))
     }
@@ -201,18 +282,14 @@ export default function WaitlistForm() {
                     <MapPin className="w-4 h-4 mr-2" />
                     Ciudad *
                   </Label>
-                  <Select value={formData.city} onValueChange={(value) => updateFormData('city', value)}>
-                    <SelectTrigger className={errors.city ? 'border-red-500' : ''}>
-                      <SelectValue placeholder="Selecciona tu ciudad" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {cities.map((city) => (
-                        <SelectItem key={city} value={city}>
-                          {city}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Input
+                    id="city"
+                    type="text"
+                    placeholder="Ej: Ciudad de México, Guadalajara..."
+                    value={formData.city}
+                    onChange={(e) => updateFormData('city', e.target.value)}
+                    className={errors.city ? 'border-red-500' : ''}
+                  />
                   {errors.city && (
                     <p className="text-red-500 text-sm">{errors.city}</p>
                   )}
@@ -238,10 +315,10 @@ export default function WaitlistForm() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="needs">¿Qué tipo de personal necesitas?</Label>
+                    <Label htmlFor="needs">¿Qué tipo de personal necesitas? (Opcional)</Label>
                     <Input
                       id="needs"
-                      placeholder="Meseros, cocineros, bartender..."
+                      placeholder="Ej: Meseros, cocineros, bartender..."
                       value={formData.needs}
                       onChange={(e) => updateFormData('needs', e.target.value)}
                     />
@@ -253,79 +330,19 @@ export default function WaitlistForm() {
                 <div className="space-y-6 p-4 bg-green-50 rounded-lg">
                   <h3 className="font-medium text-gray-900">Información profesional</h3>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="role">Rol de interés *</Label>
-                      <Select value={formData.role} onValueChange={(value) => updateFormData('role', value)}>
-                        <SelectTrigger className={errors.role ? 'border-red-500' : ''}>
-                          <SelectValue placeholder="Selecciona un rol" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {roles.map((role) => (
-                            <SelectItem key={role} value={role}>
-                              {role}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {errors.role && (
-                        <p className="text-red-500 text-sm">{errors.role}</p>
-                      )}
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="experience">Años de experiencia *</Label>
-                      <Select value={formData.experienceYears} onValueChange={(value) => updateFormData('experienceYears', value)}>
-                        <SelectTrigger className={errors.experienceYears ? 'border-red-500' : ''}>
-                          <SelectValue placeholder="Selecciona experiencia" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {experienceYears.map((exp) => (
-                            <SelectItem key={exp} value={exp}>
-                              {exp}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      {errors.experienceYears && (
-                        <p className="text-red-500 text-sm">{errors.experienceYears}</p>
-                      )}
-                    </div>
-                  </div>
-
                   <div className="space-y-2">
-                    <Label htmlFor="preferredCity">Ciudad preferida para trabajar</Label>
-                    <Select value={formData.preferredCity} onValueChange={(value) => updateFormData('preferredCity', value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Opcional - selecciona ciudad" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {cities.map((city) => (
-                          <SelectItem key={city} value={city}>
-                            {city}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="role">¿Qué posición buscas? (Opcional)</Label>
+                    <Input
+                      id="role"
+                      type="text"
+                      placeholder="Ej: Mesero, cocinero, barista..."
+                      value={formData.role}
+                      onChange={(e) => updateFormData('role', e.target.value)}
+                    />
                   </div>
                 </div>
               )}
 
-              <div className="space-y-2">
-                <Label htmlFor="source">¿Cómo supiste de nosotros?</Label>
-                <Select value={formData.source} onValueChange={(value) => updateFormData('source', value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Opcional - selecciona una opción" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {sources.map((source) => (
-                      <SelectItem key={source} value={source}>
-                        {source}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
 
               <div className="flex items-start space-x-3">
                 <Checkbox

@@ -12,46 +12,51 @@ export default function Header() {
   }
 
   return (
-<header className="border-b bg-white sticky top-0 z-50">
-  <div className="container mx-auto px-4">
-    <div className="flex items-center justify-between h-16">
-      <Link href="/" className="flex items-center">
-        {/* keep wrapper height ≤ header height */}
-        <div className="flex items-center justify-start">
-          <img
-            src="/logos/Running Fest (5).svg"
-            alt="Tacoempleos"
-            className="h-14 w-64 object-contain"
-          />
-        </div>
-      </Link>
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link href="#jobs" className="text-gray-600 hover:text-primary transition-colors">
-              Empleos
-            </Link>
-            <Link href="#companies" className="text-gray-600 hover:text-primary transition-colors">
-              Empresas
-            </Link>
-            <Link href="#resources" className="text-gray-600 hover:text-primary transition-colors">
-              Recursos
-            </Link>
-          </nav>
+    <header className="bg-white sticky top-0 z-50 border-b border-gray-200">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo on the left */}
+          <Link href="/" className="flex items-center">
+            <img
+              src="/logos/TACO (1).svg"
+              alt="Tacoempleos"
+              className="h-32 w-auto object-contain"
+              style={{ height: '150px' }}
+            />
+          </Link>
 
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={scrollToWaitlist}
-              className="hidden sm:inline-flex"
-            >
-              Unirse a la Lista
-            </Button>
-            <Button
-              size="sm"
-              onClick={scrollToWaitlist}
-            >
-              Publicar Empleo
-            </Button>
+          {/* Navigation and actions on the right */}
+          <div className="flex items-center space-x-6">
+            {/* Navigation Links */}
+            <nav className="hidden lg:flex items-center space-x-6">
+              <Link href="#jobs" className="text-gray-700 hover:text-primary transition-colors font-medium">
+                Empleos
+              </Link>
+              <Link href="#companies" className="text-gray-700 hover:text-primary transition-colors font-medium">
+                Empresas
+              </Link>
+              <Link href="/recursos/calculadora-vacaciones" className="text-gray-700 hover:text-primary transition-colors font-medium">
+                Recursos
+              </Link>
+            </nav>
+
+            {/* CTA Buttons */}
+            <div className="flex items-center space-x-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={scrollToWaitlist}
+                className="hidden sm:inline-flex"
+              >
+                Unirse a la Lista
+              </Button>
+              <Button
+                size="sm"
+                onClick={scrollToWaitlist}
+              >
+                Publicar Empleo
+              </Button>
+            </div>
           </div>
         </div>
       </div>

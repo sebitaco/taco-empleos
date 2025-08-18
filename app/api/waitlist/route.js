@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
-import { ratelimit, dailyRateLimit } from '@/lib/rate-limit'
 import { NextResponse } from 'next/server'
+import { sanitizeFormData, hasXSSPattern, sanitizeErrorMessage } from '@/lib/security'
+import { validateCSRFToken } from '@/lib/csrf'
 
 // Get real IP address
 function getIP(request) {
@@ -12,6 +13,31 @@ function getIP(request) {
   if (realip) return realip.split(',')[0].trim()
   if (xff) return xff.split(',')[0].trim()
   return '127.0.0.1'
+}
+
+// Simple in-memory rate limiting for development
+const requestCounts = new Map()
+
+function checkRateLimit(ip) {
+  const now = Date.now()
+  const windowMs = 15 * 60 * 1000 // 15 minutes
+  const maxRequests = 3
+
+  if (!requestCounts.has(ip)) {
+    requestCounts.set(ip, [])
+  }
+
+  const requests = requestCounts.get(ip)
+  // Remove old requests outside the window
+  const recentRequests = requests.filter(timestamp => now - timestamp < windowMs)
+  
+  if (recentRequests.length >= maxRequests) {
+    return { success: false }
+  }
+
+  recentRequests.push(now)
+  requestCounts.set(ip, recentRequests)
+  return { success: true }
 }
 
 // Verify Turnstile token
@@ -37,13 +63,19 @@ async function verifyTurnstile(token) {
 
 export async function POST(request) {
   try {
+    // Validate CSRF token first
+    const csrfResult = await validateCSRFToken(request)
+    if (!csrfResult.valid) {
+      return NextResponse.json(
+        { error: csrfResult.error },
+        { status: 403 }
+      )
+    }
+    
     const ip = getIP(request)
     
-    // Rate limiting
-    const [rateResult, dailyResult] = await Promise.all([
-      ratelimit.limit(ip),
-      dailyRateLimit.limit(ip)
-    ])
+    // Simple rate limiting for development
+    const rateResult = checkRateLimit(ip)
 
     if (!rateResult.success) {
       return NextResponse.json(
@@ -52,33 +84,46 @@ export async function POST(request) {
       )
     }
 
-    if (!dailyResult.success) {
-      return NextResponse.json(
-        { error: 'Límite diario alcanzado. Intenta mañana.' },
-        { status: 429 }
-      )
-    }
-
     const supabase = await createClient()
     const body = await request.json()
+
+    // Sanitize all input data
+    const sanitizedData = sanitizeFormData(body)
+    const turnstileToken = body.turnstileToken
 
     const {
       audience,
       email,
       city,
-      source,
       consent,
       companyName,
       needs,
-      role,
-      experienceYears,
-      preferredCity,
-      turnstileToken
-    } = body
+      role
+    } = sanitizedData
 
+    // Basic required field validation
     if (!email || !city || !consent || !audience) {
       return NextResponse.json(
         { error: 'Faltan campos requeridos' },
+        { status: 400 }
+      )
+    }
+
+    // Additional XSS validation (defense in depth)
+    const inputsToCheck = [email, city, companyName, needs, role].filter(Boolean)
+    for (const input of inputsToCheck) {
+      if (hasXSSPattern(input)) {
+        return NextResponse.json(
+          { error: 'Los datos contienen caracteres no válidos' },
+          { status: 400 }
+        )
+      }
+    }
+
+    // Validate audience enum
+    if (!['employer', 'candidate'].includes(audience)) {
+      return NextResponse.json(
+        { error: 'Tipo de usuario no válido' },
         { status: 400 }
       )
     }
@@ -101,24 +146,19 @@ export async function POST(request) {
       )
     }
 
-    if (audience === 'candidate' && (!role || !experienceYears)) {
-      return NextResponse.json(
-        { error: 'El rol y años de experiencia son requeridos' },
-        { status: 400 }
-      )
-    }
+    // Role is now optional for candidates
 
     const insertData = {
       audience,
-      email: email.toLowerCase().trim(),
-      city,
-      source: source || null,
+      email, // Already sanitized and validated
+      city, // Already sanitized
+      source: null,
       consent,
       company_name: audience === 'employer' ? companyName : null,
       needs: audience === 'employer' ? needs : null,
-      role: audience === 'candidate' ? role : null,
-      experience_years: audience === 'candidate' ? experienceYears : null,
-      preferred_city: audience === 'candidate' ? preferredCity : null,
+      role: audience === 'candidate' ? (role || null) : null,
+      experience_years: null,
+      preferred_city: null,
     }
 
     const { data, error } = await supabase

@@ -141,7 +141,7 @@ const jobs = [
     company: "",
     logo: "",
     location: "Guadalajara, México",
-    salary: "$8,700 MXN + propinas",
+    salary: "$8,700 MXN",
     isNew: true,
     tags: ["Licencia vigente", "Propinas diarias"]
   }
