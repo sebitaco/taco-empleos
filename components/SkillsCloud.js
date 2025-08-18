@@ -1,89 +1,66 @@
 'use client'
 
-const skills = [
-  { name: "Mesero", count: 156, popular: true },
-  { name: "Cocinero", count: 89, popular: true },
-  { name: "Barista", count: 67, popular: true },
-  { name: "Hostess", count: 45, popular: false },
-  { name: "Lavaloza", count: 78, popular: false },
-  { name: "Chef", count: 34, popular: true },
-  { name: "Bartender", count: 52, popular: true },
-  { name: "Cajero", count: 91, popular: false },
-  { name: "Gerente", count: 23, popular: true },
-  { name: "Ayudante", count: 112, popular: false },
-  { name: "Recepcionista", count: 38, popular: false },
-  { name: "Capitán", count: 19, popular: false },
-  { name: "Sommelier", count: 8, popular: false },
-  { name: "Panadero", count: 27, popular: false },
-  { name: "Pastelero", count: 21, popular: false },
-  { name: "Steward", count: 43, popular: false },
-  { name: "Runner", count: 56, popular: false },
-  { name: "Expediter", count: 15, popular: false },
-  { name: "Dishwasher", count: 73, popular: false },
-  { name: "Prep Cook", count: 41, popular: false },
-  { name: "Line Cook", count: 62, popular: false },
-  { name: "Grill Cook", count: 29, popular: false },
-  { name: "Saucier", count: 12, popular: false },
-  { name: "Garde Manger", count: 9, popular: false },
-  { name: "Tournant", count: 7, popular: false },
-  { name: "Commis", count: 18, popular: false },
-  { name: "Maître", count: 14, popular: false },
-  { name: "Concierge", count: 16, popular: false },
-  { name: "Valet", count: 22, popular: false },
-  { name: "Housekeeper", count: 85, popular: false }
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+
+const SPECIALTIES = [
+  "Mesero", "Cocinero", "Barista", "Hostess", "Lavaloza", "Chef", "Bartender", 
+  "Cajero", "Gerente", "Ayudante", "Recepcionista", "Capitán", "Sommelier", 
+  "Panadero", "Pastelero", "Steward", "Garrotero", "Expeditador", "Lavatrastes", 
+  "Cocinero de Preparación", "Cocinero de Línea", "Parrillero", "Salsero", "Garde Manger", "Tournant", 
+  "Commis", "Maître", "Conserje", "Valet", "Ama de Llaves"
 ]
+
+// Lightweight slugify function
+function slugify(text) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Remove accents
+    .replace(/[^a-z0-9]/g, '-') // Replace non-alphanumeric with dash
+    .replace(/-+/g, '-') // Collapse multiple dashes
+    .replace(/^-|-$/g, '') // Remove leading/trailing dashes
+}
 
 export default function SkillsCloud() {
   return (
-    <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Explora por Especialidad
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Encuentra oportunidades según tu experiencia y habilidades. 
-            Desde puestos de entrada hasta posiciones de liderazgo.
-          </p>
+    <section className="px-4 py-16 md:py-20 bg-gradient-to-b from-white to-slate-50">
+      <div className="mx-auto max-w-6xl text-center">
+        <h1 className="text-3xl/tight md:text-5xl font-bold tracking-tight text-slate-900">
+          Restaurantes en México<br />
+          buscan estas especialidades
+        </h1>
+        <p className="mt-3 text-slate-600 md:text-lg">
+          Explora oportunidades por rol y experiencia.
+        </p>
+
+        <div 
+          className="mt-10 md:mt-12 flex flex-wrap justify-center gap-3 md:gap-4"
+          role="list"
+          aria-label="Especialidades"
+        >
+          {SPECIALTIES.map((specialty) => (
+            <Link
+              key={specialty}
+              href={`/empleos?especialidad=${slugify(specialty)}`}
+              role="listitem"
+              className="rounded-full px-3.5 md:px-4 py-2 text-sm md:text-base font-medium bg-blue-50 text-slate-700 ring-1 ring-inset ring-blue-200 shadow-sm transition hover:bg-white hover:ring-blue-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+            >
+              {specialty}
+            </Link>
+          ))}
         </div>
 
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-wrap justify-center gap-3">
-            {skills.map((skill, index) => (
-              <button
-                key={skill.name}
-                disabled
-className={`
-                  inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
-                  hover:scale-105 hover:shadow-md cursor-pointer
-                  ${skill.popular 
-                    ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90' 
-                    : 'bg-white text-gray-700 border border-gray-200 hover:border-primary hover:text-primary'
-                  }
-                  ${skill.count > 100 ? 'text-base px-6 py-3' : ''}
-                  ${skill.count > 80 ? 'font-semibold' : ''}
-                `}
-              >
-                {skill.name}
-              </button>
-            ))}
-          </div>
-
-          <div className="text-center mt-8">
-            <div className="flex items-center justify-center space-x-6 text-xs">
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-primary rounded-full"></div>
-                <span className="text-gray-600">Más demandados</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 bg-white border border-gray-200 rounded-full"></div>
-                <span className="text-gray-600">Disponibles</span>
-              </div>
-            </div>
-          </div>
+        <div className="mt-10">
+          <Button 
+            asChild
+            variant="default" 
+            className="h-11 px-6"
+          >
+            <Link href="/empleos">Ver todos los empleos</Link>
+          </Button>
         </div>
       </div>
-
     </section>
   )
 }
