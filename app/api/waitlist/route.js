@@ -1,44 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
-import { sanitizeFormData, hasXSSPattern, sanitizeErrorMessage } from '@/lib/security'
+import { sanitizeFormData, hasXSSPattern } from '@/lib/security'
 import { validateCSRFToken } from '@/lib/csrf'
-
-// Get real IP address
-function getIP(request) {
-  const xff = request.headers.get('x-forwarded-for')
-  const realip = request.headers.get('x-real-ip')
-  const cfip = request.headers.get('cf-connecting-ip')
-  
-  if (cfip) return cfip
-  if (realip) return realip.split(',')[0].trim()
-  if (xff) return xff.split(',')[0].trim()
-  return '127.0.0.1'
-}
-
-// Simple in-memory rate limiting for development
-const requestCounts = new Map()
-
-function checkRateLimit(ip) {
-  const now = Date.now()
-  const windowMs = 15 * 60 * 1000 // 15 minutes
-  const maxRequests = 3
-
-  if (!requestCounts.has(ip)) {
-    requestCounts.set(ip, [])
-  }
-
-  const requests = requestCounts.get(ip)
-  // Remove old requests outside the window
-  const recentRequests = requests.filter(timestamp => now - timestamp < windowMs)
-  
-  if (recentRequests.length >= maxRequests) {
-    return { success: false }
-  }
-
-  recentRequests.push(now)
-  requestCounts.set(ip, recentRequests)
-  return { success: true }
-}
+import { withErrorHandler, createValidationError, createRateLimitError } from '@/lib/errorHandler'
+import { checkRateLimit, getIPAddress, getRateLimitHeaders, getRateLimitErrorMessage } from '@/lib/ratelimit'
 
 // Verify Turnstile token
 async function verifyTurnstile(token) {
@@ -61,7 +26,7 @@ async function verifyTurnstile(token) {
   return result.success
 }
 
-export async function POST(request) {
+async function handlePOST(request) {
   try {
     // Validate CSRF token first
     const csrfResult = await validateCSRFToken(request)
@@ -72,15 +37,28 @@ export async function POST(request) {
       )
     }
     
-    const ip = getIP(request)
+    // Get IP address for rate limiting
+    const ip = getIPAddress(request)
     
-    // Simple rate limiting for development
-    const rateResult = checkRateLimit(ip)
+    // Check rate limit with dual windows (15 min and daily)
+    const rateResult = await checkRateLimit(ip)
 
     if (!rateResult.success) {
+      // Return rate limit error with proper headers
+      const errorMessage = getRateLimitErrorMessage(rateResult)
+      const headers = getRateLimitHeaders(rateResult)
+      
       return NextResponse.json(
-        { error: 'Demasiadas solicitudes. Intenta nuevamente en 15 minutos.' },
-        { status: 429 }
+        { 
+          error: errorMessage,
+          retryAfter: headers['Retry-After'] ? parseInt(headers['Retry-After']) : null
+        },
+        { 
+          status: 429,
+          headers: Object.fromEntries(
+            Object.entries(headers).filter(([_, v]) => v !== undefined)
+          )
+        }
       )
     }
 
@@ -103,47 +81,32 @@ export async function POST(request) {
 
     // Basic required field validation
     if (!email || !city || !consent || !audience) {
-      return NextResponse.json(
-        { error: 'Faltan campos requeridos' },
-        { status: 400 }
-      )
+      throw createValidationError('Faltan campos requeridos')
     }
 
     // Additional XSS validation (defense in depth)
     const inputsToCheck = [email, city, companyName, needs, role].filter(Boolean)
     for (const input of inputsToCheck) {
       if (hasXSSPattern(input)) {
-        return NextResponse.json(
-          { error: 'Los datos contienen caracteres no válidos' },
-          { status: 400 }
-        )
+        throw createValidationError('Los datos contienen caracteres no válidos')
       }
     }
 
     // Validate audience enum
     if (!['employer', 'candidate'].includes(audience)) {
-      return NextResponse.json(
-        { error: 'Tipo de usuario no válido' },
-        { status: 400 }
-      )
+      throw createValidationError('Tipo de usuario no válido')
     }
 
     // Verify Turnstile token
     if (process.env.TURNSTILE_SECRET_KEY && turnstileToken) {
       const isValidToken = await verifyTurnstile(turnstileToken)
       if (!isValidToken) {
-        return NextResponse.json(
-          { error: 'Verificación de seguridad fallida' },
-          { status: 400 }
-        )
+        throw createValidationError('Verificación de seguridad fallida')
       }
     }
 
     if (audience === 'employer' && !companyName) {
-      return NextResponse.json(
-        { error: 'El nombre de la empresa es requerido' },
-        { status: 400 }
-      )
+      throw createValidationError('El nombre de la empresa es requerido')
     }
 
     // Role is now optional for candidates
@@ -167,35 +130,39 @@ export async function POST(request) {
       .select()
 
     if (error) {
-      console.error('Supabase error:', error)
-      
+      // Handle specific database constraint errors
       if (error.code === '23505') {
-        return NextResponse.json(
-          { error: 'Este email ya está registrado para esta audiencia' },
-          { status: 409 }
-        )
+        const duplicateError = new Error('Este email ya está registrado para esta audiencia')
+        duplicateError.code = '23505'
+        throw duplicateError
       }
       
-      return NextResponse.json(
-        { error: 'Error interno del servidor' },
-        { status: 500 }
-      )
+      // For any other database error, throw with original error for proper logging
+      throw error
     }
 
+    // Add rate limit headers to successful response too
+    const successHeaders = getRateLimitHeaders(rateResult)
+    
     return NextResponse.json(
       { 
         success: true, 
         message: 'Registro exitoso en lista de espera',
         id: data[0]?.id 
       },
-      { status: 201 }
+      { 
+        status: 201,
+        headers: Object.fromEntries(
+          Object.entries(successHeaders).filter(([_, v]) => v !== undefined)
+        )
+      }
     )
 
   } catch (error) {
-    console.error('API error:', error)
-    return NextResponse.json(
-      { error: 'Error interno del servidor' },
-      { status: 500 }
-    )
+    // Error handling is now managed by withErrorHandler wrapper
+    throw error
   }
 }
+
+// Export wrapped handler
+export const POST = withErrorHandler(handlePOST)
