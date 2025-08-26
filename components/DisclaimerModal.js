@@ -1,14 +1,51 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { AlertTriangle, X } from 'lucide-react'
+import { useFacebookRedirects } from '@/lib/hooks/useJobViews'
+import RegistrationGateModal from '@/components/RegistrationGateModal'
 
-export default function DisclaimerModal({ isOpen, onAccept, onCancel }) {
+export default function DisclaimerModal({ isOpen, onAccept, onCancel, job }) {
+  const { canRedirectToFacebook, recordFacebookRedirect, resetRedirects } = useFacebookRedirects()
+  const [showRegistrationGate, setShowRegistrationGate] = useState(false)
+
+  // Handle acceptance - check if user can redirect or needs to register
+  const handleAccept = () => {
+    if (!job) {
+      onAccept()
+      return
+    }
+
+    // Check if user can redirect to Facebook
+    if (canRedirectToFacebook(job.id)) {
+      // Record the redirect and proceed to Facebook
+      recordFacebookRedirect(job.id)
+      onAccept()
+    } else {
+      // Show registration gate instead
+      setShowRegistrationGate(true)
+    }
+  }
+
+  const handleRegistrationComplete = () => {
+    // Reset redirect count since user is now registered
+    resetRedirects()
+    setShowRegistrationGate(false)
+    // Proceed to Facebook
+    onAccept()
+  }
+
+  const handleRegistrationCancel = () => {
+    setShowRegistrationGate(false)
+    // Close the disclaimer modal as well
+    onCancel()
+  }
+
   // Handle escape key
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === 'Escape' && isOpen && !showRegistrationGate) {
         onCancel()
       }
     }
@@ -23,12 +60,13 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }) {
       document.removeEventListener('keydown', handleEscape)
       document.body.style.overflow = 'unset'
     }
-  }, [isOpen, onCancel])
+  }, [isOpen, showRegistrationGate, onCancel])
 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
@@ -114,13 +152,22 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }) {
             Cancelar
           </Button>
           <Button
-            onClick={onAccept}
+            onClick={handleAccept}
             className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
           >
             Entiendo, continuar
           </Button>
         </div>
       </div>
-    </div>
+      </div>
+
+      {/* Registration Gate Modal */}
+      <RegistrationGateModal 
+        isOpen={showRegistrationGate}
+        onClose={handleRegistrationCancel}
+        targetJob={job}
+        onRegistrationComplete={handleRegistrationComplete}
+      />
+    </>
   )
 }

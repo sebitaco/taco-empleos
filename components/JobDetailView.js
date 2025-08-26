@@ -161,6 +161,7 @@ export default function JobDetailView({ job }) {
         isOpen={showDisclaimer}
         onAccept={handleDisclaimerAccept}
         onCancel={handleDisclaimerCancel}
+        job={job}
       />
     </>
   )

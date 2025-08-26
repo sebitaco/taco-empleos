@@ -5,21 +5,27 @@ import { Button } from '@/components/ui/button'
 import { X, Sparkles, MapPin, DollarSign, Users } from 'lucide-react'
 // Safe Clerk hooks - return default values if Clerk is not available
 function useSignUpSafe() {
-  try {
-    const { useSignUp } = require('@clerk/nextjs')
-    return useSignUp()
-  } catch {
-    return { signUp: null, isLoaded: true, setActive: () => {} }
+  if (typeof window !== 'undefined') {
+    try {
+      const { useSignUp } = require('@clerk/nextjs')
+      return useSignUp()
+    } catch {
+      return { signUp: null, isLoaded: true, setActive: () => {} }
+    }
   }
+  return { signUp: null, isLoaded: true, setActive: () => {} }
 }
 
 function useUserSafe() {
-  try {
-    const { useUser } = require('@clerk/nextjs')
-    return useUser()
-  } catch {
-    return { user: null }
+  if (typeof window !== 'undefined') {
+    try {
+      const { useUser } = require('@clerk/nextjs')
+      return useUser()
+    } catch {
+      return { user: null }
+    }
   }
+  return { user: null }
 }
 import { useRouter } from 'next/navigation'
 

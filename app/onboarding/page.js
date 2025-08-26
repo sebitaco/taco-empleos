@@ -4,12 +4,15 @@ import { useState, useEffect } from 'react'
 
 // Safe Clerk hook - returns default values if Clerk is not available
 function useUserSafe() {
-  try {
-    const { useUser } = require('@clerk/nextjs')
-    return useUser()
-  } catch {
-    return { user: null, isLoaded: true }
+  if (typeof window !== 'undefined') {
+    try {
+      const { useUser } = require('@clerk/nextjs')
+      return useUser()
+    } catch {
+      return { user: null, isLoaded: true }
+    }
   }
+  return { user: null, isLoaded: true }
 }
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
