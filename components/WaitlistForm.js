@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Turnstile } from '@marsidev/react-turnstile'
 import { trackEvent } from '@/components/Analytics'
 import { Button } from '@/components/ui/button'
@@ -46,6 +47,7 @@ const sources = [
 ]
 
 export default function WaitlistForm() {
+  const router = useRouter()
   const [audience, setAudience] = useState('')
   const [formData, setFormData] = useState({
     email: '',
@@ -61,8 +63,9 @@ export default function WaitlistForm() {
   const [errors, setErrors] = useState({})
   const [turnstileToken, setTurnstileToken] = useState('')
   const [csrfToken, setCSRFToken] = useState('')
+  const [isRateLimited, setIsRateLimited] = useState(false)
   
-  // Fetch CSRF token on component mount
+  // Fetch CSRF token and check rate limit status on component mount
   useEffect(() => {
     const fetchCSRFToken = async () => {
       try {
@@ -78,7 +81,32 @@ export default function WaitlistForm() {
       }
     }
     
+    // Check if user is still rate limited
+    const checkRateLimit = () => {
+      const retryAfter = localStorage.getItem('waitlist_retry_after')
+      if (retryAfter) {
+        const retryTime = parseInt(retryAfter)
+        if (Date.now() < retryTime) {
+          setIsRateLimited(true)
+          const remainingTime = Math.ceil((retryTime - Date.now()) / 1000 / 60)
+          setErrors({ 
+            submit: `Por favor espera ${remainingTime} minuto${remainingTime > 1 ? 's' : ''} antes de intentar nuevamente.` 
+          })
+          
+          // Set a timeout to clear the rate limit
+          setTimeout(() => {
+            setIsRateLimited(false)
+            setErrors({})
+            localStorage.removeItem('waitlist_retry_after')
+          }, retryTime - Date.now())
+        } else {
+          localStorage.removeItem('waitlist_retry_after')
+        }
+      }
+    }
+    
     fetchCSRFToken()
+    checkRateLimit()
   }, [])
 
   const validateForm = () => {
@@ -131,6 +159,11 @@ export default function WaitlistForm() {
       setErrors({ submit: 'Error de seguridad. Por favor recarga la página.' })
       return
     }
+    
+    // Prevent submission if rate limited
+    if (isRateLimited) {
+      return
+    }
 
     if (!validateForm()) return
 
@@ -141,7 +174,7 @@ export default function WaitlistForm() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken
+          'x-csrf-token': csrfToken
         },
         body: JSON.stringify({
           email: formData.email,
@@ -161,10 +194,18 @@ export default function WaitlistForm() {
           audience: audience,
           city: sanitizeCity(formData.city)
         })
-        window.location.href = '/thanks'
+        router.push('/thanks')
       } else {
         const errorData = await response.json()
-        const errorMessage = sanitizeErrorMessage(errorData.error || 'Error al enviar el formulario')
+        let errorMessage = sanitizeErrorMessage(errorData.error || 'Error al enviar el formulario')
+        
+        // Handle rate limit errors specifically
+        if (response.status === 429 && errorData.retryAfter) {
+          // Store retry time in localStorage for better UX
+          const retryTime = Date.now() + (errorData.retryAfter * 1000)
+          localStorage.setItem('waitlist_retry_after', retryTime.toString())
+        }
+        
         setErrors({ submit: errorMessage })
       }
     } catch (error) {
@@ -397,8 +438,8 @@ export default function WaitlistForm() {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full"
-                disabled={isSubmitting || !audience}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold uppercase tracking-wider"
+                disabled={isSubmitting || !audience || isRateLimited}
               >
                 {isSubmitting ? (
                   <>
@@ -406,15 +447,12 @@ export default function WaitlistForm() {
                     Enviando...
                   </>
                 ) : (
-                  <>
-                    <Heart className="w-4 h-4 mr-2" />
-                    Unirse a la Lista de Espera
-                  </>
+                  'SIGN UP →'
                 )}
               </Button>
 
-              <p className="text-xs text-gray-500 text-center">
-                No spam, solo te contactaremos cuando lancemos la plataforma.
+              <p className="text-sm text-gray-600 text-center">
+                Únete a 42k profesionales + obtén nuestra Guía Salarial gratis ✨
               </p>
             </form>
           </div>

@@ -18,6 +18,9 @@ export async function middleware(request) {
   const response = NextResponse.next()
   
   // Security headers as per CLAUDE.md OWASP alignment requirements
+  // Remove information disclosure headers
+  response.headers.delete('X-Powered-By')
+  
   // Force override any default Next.js headers
   response.headers.delete('X-Frame-Options')
   response.headers.set('X-Frame-Options', 'DENY')
@@ -25,6 +28,9 @@ export async function middleware(request) {
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   response.headers.set('X-DNS-Prefetch-Control', 'on')
   response.headers.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
+  
+  // Permissions Policy - restrict browser features
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()')
   
   // Additional cookie security headers
   response.headers.set('X-Permitted-Cross-Domain-Policies', 'none')

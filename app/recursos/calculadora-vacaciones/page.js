@@ -22,6 +22,61 @@ export default function CalculadoraVacacionesPage() {
         {/* Interactive Vacation Calculator */}
         <VacationCalculator />
 
+        {/* Lo Básico que Debe Saber Section */}
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+            Lo básico que debes saber sobre vacaciones en México
+          </h2>
+          
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-semibold text-green-800 mb-4">
+              📋 Derecho fundamental
+            </h3>
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start">
+                <span className="text-green-600 mr-2">✓</span>
+                <span><strong>Derecho legal:</strong> Todas las personas trabajadoras en México tienen derecho a vacaciones, sin importar cargo o tipo de contrato.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 mr-2">✓</span>
+                <span><strong>Reforma 2023:</strong> Antes eran 6 días, ahora son 12 días al cumplir 1 año de trabajo.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 mr-2">✓</span>
+                <span><strong>Incremento anual:</strong> Sube 2 días por año hasta llegar a 20 días en el 5º año.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 mr-2">✓</span>
+                <span><strong>Después de eso:</strong> Aumenta 1 día cada 5 años.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-green-600 mr-2">✓</span>
+                <span><strong>Prima vacacional:</strong> Además de tu sueldo normal, recibes un 25% extra sobre los días de vacaciones.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
+            <h3 className="text-lg font-semibold text-amber-800 mb-4 flex items-center">
+              ⚠️ Reglas clave
+            </h3>
+            <ul className="space-y-3 text-gray-700">
+              <li className="flex items-start">
+                <span className="text-amber-600 mr-2">•</span>
+                <span><strong>No son acumulables:</strong> Tienes que usarlas en el periodo que te corresponde, no guardarlas indefinidamente.</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-amber-600 mr-2">•</span>
+                <span><strong>No se pueden cambiar por dinero,</strong> salvo casos de trabajo eventual (donde se paga la parte proporcional al terminar el contrato).</span>
+              </li>
+              <li className="flex items-start">
+                <span className="text-amber-600 mr-2">•</span>
+                <span><strong>El patrón tiene la obligación</strong> de dártelas, no es opcional.</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
         {/* Legal Context Section */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">

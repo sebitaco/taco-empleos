@@ -3,6 +3,7 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Analytics from '@/components/Analytics'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -60,9 +61,11 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className={inter.className}>
         <Analytics />
-        <Header />
-        {children}
-        <Footer />
+        <ErrorBoundary>
+          <Header />
+          {children}
+          <Footer />
+        </ErrorBoundary>
       </body>
     </html>
   )

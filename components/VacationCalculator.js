@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -216,9 +217,25 @@ export default function VacationCalculator() {
           )}
         </div>
         
-        <p className="text-xs text-gray-500 text-center mt-4">
-          * Campos obligatorios. Los cálculos se basan en la Ley Federal del Trabajo (reforma 2023).
-        </p>
+        <div className="mt-4 space-y-3">
+          <div className="text-center">
+            <Link 
+              href="/recursos/calculadora-aguinaldo"
+              className="inline-flex items-center space-x-1 text-xs text-blue-600 hover:text-blue-700 transition-colors"
+            >
+              <span>También disponible:</span>
+              <span className="font-medium">Calculadora de Aguinaldo ISR 2025 →</span>
+            </Link>
+          </div>
+          
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+            <p className="text-xs text-amber-800 text-center">
+              <strong>* Campos obligatorios.</strong> Este cálculo puede contener errores y es solo una estimación. 
+              Consulta un contador profesional para cálculos precisos. 
+              Los cálculos se basan en la Ley Federal del Trabajo (reforma 2023).
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   )
