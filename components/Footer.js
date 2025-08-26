@@ -16,7 +16,7 @@ export default function Footer() {
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4">
         
-        {/* 1. CTA Block - Protagonist */}
+        {/* 1. CTA Block */}
         <div className="py-16 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
             ¿Listo para el futuro del empleo en gastronomía?
@@ -43,52 +43,30 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* 2. Information Block - 3 Columns */}
-        <div className="border-t border-gray-700 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-            
-            {/* Left Column: Logo + Tagline */}
-            <div className="text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start mb-2">
-                <img 
-                  src="/logos/TACO (1).svg" 
-                  alt="TACO logo" 
-                  className="w-12 h-12 object-contain mr-3"
-                />
-                <span className="text-gray-300 text-sm">
-                  Conectando talento con oportunidades en gastronomía
-                </span>
+        {/* 2. Footer with Two Levels */}
+        <div className="border-t border-gray-700">
+          
+          {/* Upper Level: Brand Information */}
+          <div className="py-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+              
+              {/* Logo + Tagline */}
+              <div className="text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start">
+                  <img 
+                    src="/logos/TACO (1).svg" 
+                    alt="TACO logo" 
+                    className="w-10 h-10 object-contain mr-3"
+                  />
+                  <span className="text-gray-300 text-sm">
+                    Conectando talento con oportunidades en gastronomía
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* Center Column: Navigation */}
-            <div className="text-center">
-              <nav className="flex flex-wrap justify-center gap-6">
-                <Link 
-                  href="#" 
-                  className="text-gray-300 hover:text-white transition-colors text-sm font-medium focus:outline-none focus:text-white"
-                >
-                  Empleos
-                </Link>
-                <Link 
-                  href="#" 
-                  className="text-gray-300 hover:text-white transition-colors text-sm font-medium focus:outline-none focus:text-white"
-                >
-                  Empresas
-                </Link>
-                <Link 
-                  href="#" 
-                  className="text-gray-300 hover:text-white transition-colors text-sm font-medium focus:outline-none focus:text-white"
-                >
-                  Recursos
-                </Link>
-              </nav>
-            </div>
-
-            {/* Right Column: Contact + Social */}
-            <div className="text-center md:text-right">
-              <div className="flex flex-col md:flex-row md:justify-end items-center gap-4">
-                <div className="flex items-center space-x-2">
+              {/* Email Contact */}
+              <div className="text-center">
+                <div className="flex items-center justify-center space-x-2">
                   <Mail className="w-4 h-4 text-gray-400" />
                   <a 
                     href="mailto:sebi@tacoempleos.com.mx" 
@@ -97,7 +75,11 @@ export default function Footer() {
                     sebi@tacoempleos.com.mx
                   </a>
                 </div>
-                <div className="flex space-x-4">
+              </div>
+
+              {/* Social Media */}
+              <div className="text-center md:text-right">
+                <div className="flex justify-center md:justify-end space-x-4">
                   <a 
                     href="#" 
                     className="text-gray-400 hover:text-white transition-colors focus:outline-none focus:text-white" 
@@ -128,47 +110,41 @@ export default function Footer() {
                   </a>
                 </div>
               </div>
-            </div>
 
-          </div>
-        </div>
-
-        {/* 3. Legal Section - Single Line */}
-        <div className="border-t border-gray-700 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-            <div className="mb-3 md:mb-0">
-              © 2025 Taco Empleos
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link 
-                href="/privacy" 
-                className="hover:text-gray-300 transition-colors focus:outline-none focus:text-gray-300"
-              >
-                Privacidad
-              </Link>
-              <span className="text-gray-600">•</span>
-              <Link 
-                href="/terms" 
-                className="hover:text-gray-300 transition-colors focus:outline-none focus:text-gray-300"
-              >
-                Términos
-              </Link>
-              <span className="text-gray-600">•</span>
-              <a 
-                href="/sitemap.xml" 
-                className="hover:text-gray-300 transition-colors focus:outline-none focus:text-gray-300"
-              >
-                Sitemap
-              </a>
-              <span className="text-gray-600">•</span>
-              <a 
-                href="#" 
-                className="hover:text-gray-300 transition-colors focus:outline-none focus:text-gray-300"
-              >
-                Ayuda
-              </a>
             </div>
           </div>
+
+          {/* Lower Level: Legal */}
+          <div className="border-t border-gray-700 py-4">
+            <div className="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+              <div className="mb-3 md:mb-0">
+                © 2025 Taco Empleos
+              </div>
+              <div className="flex items-center space-x-3">
+                <Link 
+                  href="/privacy" 
+                  className="hover:text-gray-300 transition-colors focus:outline-none focus:text-gray-300"
+                >
+                  Privacidad
+                </Link>
+                <span className="text-gray-600">•</span>
+                <Link 
+                  href="/terms" 
+                  className="hover:text-gray-300 transition-colors focus:outline-none focus:text-gray-300"
+                >
+                  Términos
+                </Link>
+                <span className="text-gray-600">•</span>
+                <a 
+                  href="/sitemap.xml" 
+                  className="hover:text-gray-300 transition-colors focus:outline-none focus:text-gray-300"
+                >
+                  Sitemap
+                </a>
+              </div>
+            </div>
+          </div>
+
         </div>
         
       </div>
