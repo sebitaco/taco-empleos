@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import JobDetailView from '@/components/JobDetailView'
+import JobDetailClientWrapper from '@/components/JobDetailClientWrapper'
 
 async function getJob(jobId) {
   try {
@@ -74,5 +75,5 @@ export default async function JobDetailPage({ params }) {
     notFound()
   }
 
-  return <JobDetailView job={job} />
+  return <JobDetailClientWrapper job={job} jobId={params.jobId} />
 }

@@ -12,77 +12,16 @@ export default function Footer() {
     }
   }
 
-
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center mb-6">
-              <div className="w-32 h-32 rounded-lg flex items-center justify-center">
-                <img 
-                  src="/logos/TACO (1).svg" 
-                  alt="Logo" 
-                  className="w-32 h-32 object-contain"
-                />
-              </div>
-            </div>
-            <p className="text-gray-300 mb-6 text-sm">
-              La plataforma líder para conectar talento con oportunidades 
-              en la industria gastronómica en México.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-
-          {/* Resources & Contact - Right Side */}
-          <div className="text-right">
-            <h3 className="font-semibold text-lg mb-4">Recursos</h3>
-            <ul className="space-y-2 mb-6">
-              <li>
-                <Link href="/privacy" className="text-gray-300 hover:text-white transition-colors text-sm">
-                  Política de Privacidad
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-gray-300 hover:text-white transition-colors text-sm">
-                  Términos y Condiciones
-                </Link>
-              </li>
-            </ul>
-
-            <div className="space-y-3">
-              <div className="flex items-center justify-end space-x-2 text-sm text-gray-300">
-                <Mail className="w-4 h-4" />
-                <a href="mailto:sebi@tacoempleos.com.mx" className="hover:text-white transition-colors">
-                  sebi@tacoempleos.com.mx
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-gray-800 rounded-xl p-8 mb-12 text-center">
-          <h3 className="text-2xl font-bold mb-4">
+      {/* CTA Section */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center mb-12">
+          <h3 className="text-2xl md:text-3xl font-bold mb-4">
             ¿Listo para el futuro del empleo en gastronomía?
           </h3>
-          <p className="text-gray-300 mb-6">
-            Únete a nuestra lista de espera y sé de los primeros en acceder 
-            a las mejores oportunidades laborales.
+          <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+            Únete a nuestra lista de espera y sé de los primeros en acceder a las mejores oportunidades.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -90,7 +29,7 @@ export default function Footer() {
               size="lg"
               className="bg-primary hover:bg-primary/90"
             >
-              Buscar Trabajo
+              Buscar Empleo
             </Button>
             <Button 
               onClick={scrollToWaitlist}
@@ -103,27 +42,87 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2024 Taco Empleos. Todos los derechos reservados.
+        {/* Footer Info Section */}
+        <div className="border-t border-gray-800 pt-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            {/* Logo and Tagline */}
+            <div className="text-center lg:text-left">
+              <div className="flex justify-center lg:justify-start mb-4">
+                <img 
+                  src="/logos/TACO (1).svg" 
+                  alt="TACO logo" 
+                  className="w-16 h-16 object-contain"
+                />
+              </div>
+              <p className="text-gray-300 text-sm">
+                Conectando talento con oportunidades en gastronomía
+              </p>
             </div>
-            <div className="flex flex-wrap gap-6 text-sm">
-              <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">
+
+            {/* Navigation Links */}
+            <div className="text-center">
+              <div className="flex flex-wrap justify-center gap-6 text-sm">
+                <Link href="#" className="text-gray-300 hover:text-white transition-colors">
+                  Empleos
+                </Link>
+                <Link href="#" className="text-gray-300 hover:text-white transition-colors">
+                  Empresas
+                </Link>
+                <Link href="#" className="text-gray-300 hover:text-white transition-colors">
+                  Recursos
+                </Link>
+              </div>
+            </div>
+
+            {/* Contact and Social */}
+            <div className="text-center lg:text-right">
+              <div className="mb-4">
+                <div className="flex items-center justify-center lg:justify-end space-x-2 text-sm text-gray-300 mb-4">
+                  <Mail className="w-4 h-4" />
+                  <a href="mailto:sebi@tacoempleos.com.mx" className="hover:text-white transition-colors">
+                    sebi@tacoempleos.com.mx
+                  </a>
+                </div>
+              </div>
+              <div className="flex justify-center lg:justify-end space-x-4">
+                <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
+                  <Facebook className="w-5 h-5" />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="X (Twitter)">
+                  <Twitter className="w-5 h-5" />
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Copyright and Legal Links */}
+        <div className="border-t border-gray-800 pt-8 mt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+            <div className="mb-4 md:mb-0">
+              © 2025 Taco Empleos — 
+            </div>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link href="/privacy" className="hover:text-white transition-colors">
                 Privacidad
               </Link>
-              <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
+              <span className="text-gray-600">|</span>
+              <Link href="/terms" className="hover:text-white transition-colors">
                 Términos
               </Link>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <span className="text-gray-600">|</span>
+              <a href="/sitemap.xml" className="hover:text-white transition-colors">
                 Sitemap
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+              <span className="text-gray-600">|</span>
+              <a href="#" className="hover:text-white transition-colors">
                 Ayuda
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                Contacto
               </a>
             </div>
           </div>

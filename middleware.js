@@ -1,12 +1,23 @@
 import { NextResponse } from 'next/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { createAuthMiddleware, defaultAuthConfig } from '@/lib/auth/middleware'
 
 // Create the authorization middleware with our configuration
 const authMiddleware = createAuthMiddleware(defaultAuthConfig)
 
-export async function middleware(request) {
+// Clerk route matcher for protected routes (none for now - we use client-side gating)
+const isProtectedRoute = createRouteMatcher([
+  // We're not protecting any routes by default
+  // Users can browse freely until they hit the job view limit
+])
+
+// Wrap the existing middleware with Clerk
+export default clerkMiddleware(async (auth, request) => {
   const { pathname } = request.nextUrl
   const method = request.method
+  
+  // Apply Clerk protection if route is protected (none for now)
+  if (isProtectedRoute(request)) auth().protect()
   
   // TODO: Re-enable auth middleware after testing
   // const authResponse = await authMiddleware(request)
@@ -49,12 +60,12 @@ export async function middleware(request) {
   // Content Security Policy - comprehensive policy for production security
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' challenges.cloudflare.com plausible.io",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' challenges.cloudflare.com plausible.io *.clerk.accounts.dev",
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob:",
+    "img-src 'self' data: blob: img.clerk.com",
     "font-src 'self'",
-    "connect-src 'self' challenges.cloudflare.com plausible.io *.supabase.co *.upstash.io",
-    "frame-src challenges.cloudflare.com",
+    "connect-src 'self' challenges.cloudflare.com plausible.io *.supabase.co *.upstash.io api.clerk.dev clerk.*.lcl.dev *.clerk.accounts.dev",
+    "frame-src challenges.cloudflare.com *.clerk.accounts.dev",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'"
@@ -63,7 +74,7 @@ export async function middleware(request) {
   response.headers.set('Content-Security-Policy', csp)
   
   return response
-}
+})
 
 export const config = {
   matcher: [

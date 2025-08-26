@@ -4,6 +4,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Analytics from '@/components/Analytics'
 import ErrorBoundary from '@/components/ErrorBoundary'
+import ClerkWrapper from '@/components/ClerkWrapper'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -60,12 +61,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body className={inter.className}>
-        <Analytics />
-        <ErrorBoundary>
-          <Header />
-          {children}
-          <Footer />
-        </ErrorBoundary>
+        <ClerkWrapper>
+          <Analytics />
+          <ErrorBoundary>
+            <Header />
+            {children}
+            <Footer />
+          </ErrorBoundary>
+        </ClerkWrapper>
       </body>
     </html>
   )
