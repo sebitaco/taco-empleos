@@ -97,7 +97,7 @@ export default function HeroSearch() {
             <span className="text-primary">gastronómica</span> de CDMX
           </h1>
           <p className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto">
-            Recibe nuevas vacantes por correo
+            Tacoempleos conecta a trabajadores gastronómicos con restaurantes, bares y cafés
           </p>
           
           {/* Email Subscription Form */}

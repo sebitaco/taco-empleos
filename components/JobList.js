@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { MapPin, Clock, DollarSign, Filter } from 'lucide-react'
@@ -198,9 +199,10 @@ export default function JobList() {
         {/* Job listings */}
         <div className="space-y-0 border border-gray-200 rounded-lg overflow-hidden">
           {jobs.map((job, index) => (
-            <div
+            <Link
               key={job.id}
-              className={`relative bg-white ${index !== jobs.length - 1 ? 'border-b border-gray-200' : ''} hover:shadow-sm transition-all duration-200`}
+              href={`/empleos/${job.id}`}
+              className={`relative bg-white block ${index !== jobs.length - 1 ? 'border-b border-gray-200' : ''} hover:shadow-md hover:bg-gray-50 transition-all duration-200 cursor-pointer`}
             >
 
               <div className="flex items-center p-6 pr-20">
@@ -249,7 +251,7 @@ export default function JobList() {
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
