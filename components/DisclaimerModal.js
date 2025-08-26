@@ -66,7 +66,9 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel, job }) {
 
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Only show disclaimer if registration gate is not showing */}
+      {!showRegistrationGate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
@@ -159,9 +161,10 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel, job }) {
           </Button>
         </div>
       </div>
-      </div>
+    </div>
+  )}
 
-      {/* Registration Gate Modal */}
+      {/* Registration Gate Modal - Higher z-index to appear above disclaimer */}
       <RegistrationGateModal 
         isOpen={showRegistrationGate}
         onClose={handleRegistrationCancel}

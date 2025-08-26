@@ -85,7 +85,7 @@ export default function RegistrationGateModal({ isOpen, onClose, targetJob, onRe
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
@@ -115,58 +115,14 @@ export default function RegistrationGateModal({ isOpen, onClose, targetJob, onRe
 
         {/* Content */}
         <div className="p-6">
-          {/* Target Job Preview */}
-          {targetJob && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-              <div className="flex items-start">
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-900 mb-2">
-                    {targetJob.title}
-                  </h3>
-                  <div className="flex items-center text-sm text-gray-600 mb-1">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    <span>{targetJob.location}</span>
-                  </div>
-                  <div className="flex items-center text-sm text-green-600 font-semibold">
-                    <DollarSign className="w-4 h-4 mr-1" />
-                    <span>{targetJob.salary}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
           <div className="space-y-4 text-gray-700 mb-6">
-            <p className="text-lg font-medium text-gray-900">
-              Regístrate para ver {targetJob ? 'esta posición' : 'más empleos'} + acceso ilimitado
+            <p className="text-lg font-medium text-gray-900 text-center">
+              Regístrate gratis para ver todas las posiciones de trabajo
             </p>
             
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                  <span>
-                    <strong>Acceso ilimitado</strong> a todas las ofertas de trabajo
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                  <span>
-                    <strong>Alertas personalizadas</strong> de nuevos empleos en tu ciudad
-                  </span>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0" />
-                  <span>
-                    <strong>Guía salarial gratis</strong> para el sector hostelería
-                  </span>
-                </li>
-              </ul>
-            </div>
-
             <div className="flex items-center justify-center text-sm text-gray-500">
               <Users className="w-4 h-4 mr-2" />
-              <span>Únete a +50,000 profesionales de la hostelería</span>
+              <span>Únete a 6,000 profesionales de restaurantes</span>
             </div>
           </div>
         </div>
@@ -196,10 +152,6 @@ export default function RegistrationGateModal({ isOpen, onClose, targetJob, onRe
           >
             Ya tengo cuenta - Iniciar sesión
           </Button>
-          
-          <p className="text-xs text-center text-gray-500">
-            Registro 100% gratuito • No spam • Cancela cuando quieras
-          </p>
         </div>
       </div>
     </div>
