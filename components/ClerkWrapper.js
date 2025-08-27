@@ -1,6 +1,7 @@
 'use client'
 
 import { ClerkProvider } from '@clerk/nextjs'
+import { esMX } from '@clerk/localizations'
 
 export default function ClerkWrapper({ children }) {
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
@@ -13,6 +14,7 @@ export default function ClerkWrapper({ children }) {
   return (
     <ClerkProvider 
       publishableKey={publishableKey}
+      localization={esMX}
       appearance={{
         variables: {
           colorPrimary: '#2563eb'
