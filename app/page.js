@@ -2,7 +2,7 @@ import HeroSearch from '@/components/HeroSearch'
 import JobList from '@/components/JobList'
 import SkillsCloud from '@/components/SkillsCloud'
 import Articles from '@/components/Articles'
-import WaitlistForm from '@/components/WaitlistForm'
+import JobPostingForm from '@/components/JobPostingForm'
 
 export default function Home() {
   return (
@@ -11,7 +11,7 @@ export default function Home() {
       <JobList />
       <SkillsCloud />
       <Articles />
-      <WaitlistForm />
+      <JobPostingForm />
     </main>
   )
 }

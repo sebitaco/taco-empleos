@@ -484,6 +484,25 @@ export default function TerminosCondiciones() {
                   y/o libre de errores de los Espacios de Calificación de
                   Empresas.
                 </p>
+
+                <p>
+                  <strong>1.8. Ofertas de Empleo de Múltiples Fuentes y Limitación de Responsabilidad</strong>
+                </p>
+                <p>
+                  <strong>1.8.1.</strong> TACOEMPLEOS recopila ofertas de empleo de múltiples fuentes incluyendo redes sociales, sitios web, y otras plataformas digitales. Si bien realizamos esfuerzos razonables para verificar estas ofertas, TACOEMPLEOS no garantiza la exactitud, veracidad, legitimidad o vigencia de las mismas.
+                </p>
+                <p>
+                  <strong>1.8.2.</strong> TACOEMPLEOS no puede confirmar la identidad real de los empleadores, la existencia de las vacantes publicadas, o que las personas que publican ofertas estén autorizadas para representar a las empresas mencionadas.
+                </p>
+                <p>
+                  <strong>1.8.3.</strong> El Usuario reconoce que debe ejercer precaución al interactuar con empleadores y verificar independientemente la legitimidad de todas las ofertas de empleo. TACOEMPLEOS recomienda tomar medidas de seguridad apropiadas durante el proceso de búsqueda de empleo.
+                </p>
+                <p>
+                  <strong>1.8.4.</strong> TACOEMPLEOS actúa únicamente como plataforma de difusión de información y no establece, garantiza o supervisa ninguna relación laboral entre Usuario y empleadores. El Usuario asume toda la responsabilidad de verificar independientemente la legitimidad de cualquier oportunidad laboral y empleador.
+                </p>
+                <p>
+                  <strong>1.8.5.</strong> TACOEMPLEOS no será responsable por cualquier consecuencia derivada de la interacción del Usuario con terceros empleadores, incluyendo pero sin limitarse a disputas laborales, incumplimientos contractuales, condiciones laborales inadecuadas, o cualquier daño económico o personal.
+                </p>
               </div>
             </section>
 
@@ -645,6 +664,12 @@ export default function TerminosCondiciones() {
                   incluyendo, pero sin limitación, daños directos y/o
                   indirectos, lucro cesante o pérdida de chance que cause un
                   Usuario a otro Usuario.
+                </p>
+                <p>
+                  <strong>5.8.</strong> El Usuario reconoce expresamente que TACOEMPLEOS obtiene contenido de fuentes externas y que no tiene control total sobre la veracidad del mismo. Cualquier confianza depositada en la información publicada es bajo el propio riesgo del Usuario. TACOEMPLEOS no será responsable por pérdidas económicas, daños personales, o cualquier otro perjuicio resultante de información inexacta o fraudulenta de terceros.
+                </p>
+                <p>
+                  <strong>5.9.</strong> TACOEMPLEOS no garantiza que las empresas mencionadas en las ofertas de empleo hayan autorizado la publicación de dichas ofertas o que las personas que las publican tengan facultades para representarlas.
                 </p>
               </div>
             </section>

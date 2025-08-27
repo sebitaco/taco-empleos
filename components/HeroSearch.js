@@ -7,8 +7,22 @@ import { trackEvent } from '@/components/Analytics'
 import { MapPin, Search, TrendingUp, Heart } from 'lucide-react'
 import Image from 'next/image'
 
+// 8 most common gastronomy positions
+const positions = [
+  'Mesero/a',
+  'Cocinero/a', 
+  'Barista',
+  'Bartender',
+  'Hostess/Host',
+  'Ayudante de cocina',
+  'Lavaloza',
+  'Chef'
+]
+
 export default function HeroSearch() {
   const [email, setEmail] = useState('')
+  const [position, setPosition] = useState('')
+  const [showPositionDropdown, setShowPositionDropdown] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
@@ -65,19 +79,24 @@ export default function HeroSearch() {
         },
         body: JSON.stringify({
           email: email,
-          city: 'No especificada', // Default value since it's required
-          consent: true, // Implicit consent by submitting
-          audience: 'candidate', // Default to candidate
-          role: '',
-          companyName: '',
-          needs: '',
-          turnstileToken: '' // Will handle this properly later
+          // Only send what the user actually provided
+          role: position || null, // Position if selected, null if not
+          // Set minimal required fields for database
+          city: 'CDMX', // Default to CDMX since this is CDMX job board
+          audience: 'candidate', // This is always candidate signup
+          consent: true, // Implicit by submitting
+          // Empty employer fields
+          companyName: null,
+          needs: null,
+          turnstileToken: ''
         }),
       })
 
       if (response.ok) {
         setSuccess(true)
         setEmail('') // Clear the email field
+        setPosition('') // Clear the position field
+        setShowPositionDropdown(false) // Hide dropdown
       } else {
         setError('Error al registrarte. Por favor intenta de nuevo.')
       }
@@ -135,7 +154,13 @@ export default function HeroSearch() {
                       type="email"
                       placeholder="📧 Recibe las mejores vacantes por correo"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => {
+                        setEmail(e.target.value)
+                        // Show position dropdown when user starts typing email
+                        if (e.target.value.length > 0 && !showPositionDropdown) {
+                          setShowPositionDropdown(true)
+                        }
+                      }}
                       className="flex-1 px-4 py-3 text-base border-gray-300 rounded-lg"
                       disabled={isSubmitting}
                     />
@@ -148,6 +173,28 @@ export default function HeroSearch() {
                       {isSubmitting ? 'Registrando...' : 'Regístrate'}
                     </Button>
                   </div>
+
+                  {/* Position Dropdown - appears when user starts typing email */}
+                  {showPositionDropdown && (
+                    <div className="space-y-2 animate-in slide-in-from-top-2 duration-200">
+                      <label className="block text-sm font-medium text-gray-700">
+                        ¿Qué posición te interesa? (Opcional)
+                      </label>
+                      <select
+                        value={position}
+                        onChange={(e) => setPosition(e.target.value)}
+                        className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        disabled={isSubmitting}
+                      >
+                        <option value="">Selecciona una posición (opcional)</option>
+                        {positions.map((pos) => (
+                          <option key={pos} value={pos}>
+                            {pos}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
 
                   {error && (
                     <p className="text-red-500 text-sm mt-2">{error}</p>

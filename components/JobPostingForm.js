@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Users, Briefcase, Mail, MapPin, Heart } from 'lucide-react'
 import { 
@@ -46,18 +47,18 @@ const sources = [
   "Anuncio publicitario", "Blog o artículo", "Otro"
 ]
 
-export default function WaitlistForm() {
+export default function JobPostingForm() {
   const router = useRouter()
-  const [audience, setAudience] = useState('')
   const [formData, setFormData] = useState({
     email: '',
     city: '',
     consent: false,
-    // Employer fields
-    companyName: '',
-    needs: '',
-    // Candidate fields
-    role: ''
+    restaurantName: '',
+    contactName: '',
+    contactPhone: '',
+    position: '',
+    salary: '',
+    description: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState({})
@@ -112,36 +113,41 @@ export default function WaitlistForm() {
   const validateForm = () => {
     const newErrors = {}
 
-    // Basic required field validation
-    if (!formData.email) newErrors.email = 'El email es requerido'
-    if (!formData.city) newErrors.city = 'La ciudad es requerida'
+    // Basic required field validation with trimming
+    if (!formData.email?.trim()) newErrors.email = 'El email es requerido'
+    if (!formData.city?.trim()) newErrors.city = 'La colonia es requerida'
     if (!formData.consent) newErrors.consent = 'Debes aceptar la política de privacidad'
+    if (!formData.restaurantName?.trim()) newErrors.restaurantName = 'El nombre del restaurante es requerido'
+    if (!formData.contactName?.trim()) newErrors.contactName = 'El nombre de contacto es requerido'
+    if (!formData.contactPhone?.trim()) newErrors.contactPhone = 'El teléfono de contacto es requerido'
+    if (!formData.position?.trim()) newErrors.position = 'El puesto es requerido'
+    if (!formData.description?.trim()) newErrors.description = 'La descripción del puesto es requerida'
     if (process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && !turnstileToken) newErrors.turnstile = 'Por favor completa la verificación de seguridad'
 
     // XSS validation for all text inputs
-    if (formData.email && hasXSSPattern(formData.email)) {
-      newErrors.email = 'El email contiene caracteres no válidos'
-    }
+    const fieldsToValidate = [
+      { field: 'email', name: 'El email' },
+      { field: 'city', name: 'La ciudad' },
+      { field: 'restaurantName', name: 'El nombre del restaurante' },
+      { field: 'contactName', name: 'El nombre de contacto' },
+      { field: 'contactPhone', name: 'El teléfono' },
+      { field: 'position', name: 'El puesto' },
+      { field: 'salary', name: 'El salario' },
+      { field: 'description', name: 'La descripción' }
+    ]
     
-    if (formData.city && hasXSSPattern(formData.city)) {
-      newErrors.city = 'La ciudad contiene caracteres no válidos'
-    }
+    fieldsToValidate.forEach(({ field, name }) => {
+      if (formData[field] && hasXSSPattern(formData[field])) {
+        newErrors[field] = `${name} contiene caracteres no válidos`
+      }
+    })
 
-    if (formData.companyName && hasXSSPattern(formData.companyName)) {
-      newErrors.companyName = 'El nombre de la empresa contiene caracteres no válidos'
-    }
-
-    if (formData.role && hasXSSPattern(formData.role)) {
-      newErrors.role = 'El puesto contiene caracteres no válidos'
-    }
-
-    if (formData.needs && hasXSSPattern(formData.needs)) {
-      newErrors.needs = 'La descripción contiene caracteres no válidos'
-    }
-
-    if (audience === 'employer') {
-      if (!formData.companyName) newErrors.companyName = 'El nombre de la empresa es requerido'
-    }
+    // Debug logging
+    console.log('Form validation check:', {
+      formData,
+      newErrors,
+      turnstileToken
+    })
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -149,11 +155,6 @@ export default function WaitlistForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    if (!audience) {
-      setErrors({ audience: 'Selecciona si eres empleador o candidato' })
-      return
-    }
     
     if (!csrfToken) {
       setErrors({ submit: 'Error de seguridad. Por favor recarga la página.' })
@@ -170,29 +171,31 @@ export default function WaitlistForm() {
     setIsSubmitting(true)
     
     try {
-      const response = await fetch('/api/waitlist', {
+      const response = await fetch('/api/job-posting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'x-csrf-token': csrfToken
         },
         body: JSON.stringify({
-          email: formData.email,
-          city: formData.city,
+          email: formData.email?.trim(),
+          city: formData.city?.trim(),
           consent: formData.consent,
-          companyName: formData.companyName,
-          needs: formData.needs,
-          role: formData.role,
-          audience,
+          restaurantName: formData.restaurantName?.trim(),
+          contactName: formData.contactName?.trim(),
+          contactPhone: formData.contactPhone?.trim(),
+          position: formData.position?.trim(),
+          salary: formData.salary?.trim(),
+          description: formData.description?.trim(),
           turnstileToken
         }),
       })
 
       if (response.ok) {
-        // Track successful signup with sanitized data
-        trackEvent('waitlist_submit', {
-          audience: audience,
-          city: sanitizeCity(formData.city)
+        // Track successful job posting submission
+        trackEvent('job_posting_submit', {
+          city: sanitizeCity(formData.city),
+          position: formData.position
         })
         router.push('/thanks')
       } else {
@@ -216,29 +219,15 @@ export default function WaitlistForm() {
   }
 
   const updateFormData = (field, value) => {
+    // Handle different value types - boolean for checkboxes, string for inputs
     let sanitizedValue = value
-
-    // Sanitize input based on field type
-    switch (field) {
-      case 'email':
-        sanitizedValue = sanitizeEmail(value)
-        break
-      case 'city':
-        sanitizedValue = sanitizeCity(value)
-        break
-      case 'companyName':
-        sanitizedValue = sanitizeCompanyName(value)
-        break
-      case 'role':
-        sanitizedValue = sanitizeRole(value)
-        break
-      case 'needs':
-        sanitizedValue = sanitizeGeneralText(value)
-        break
-      default:
-        // For other fields, just trim
-        sanitizedValue = typeof value === 'string' ? value.trim() : value
+    
+    if (typeof value === 'string') {
+      // Use minimal sanitization during typing to prevent validation issues
+      // Only remove the most dangerous patterns
+      sanitizedValue = value.replace(/<script[\s\S]*?>/gi, '').replace(/javascript:/gi, '').replace(/<iframe[\s\S]*?>/gi, '')
     }
+    // For boolean values (checkboxes), no sanitization needed
 
     setFormData(prev => ({ ...prev, [field]: sanitizedValue }))
     if (errors[field]) {
@@ -252,137 +241,152 @@ export default function WaitlistForm() {
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">
-              Únete a la Lista de Espera
+              Publica tu Vacante <span className="text-blue-200 text-2xl font-normal">Sin Costo</span>
             </h2>
             <p className="text-lg text-blue-100">
-              Sé de los primeros en acceder a Taco Empleos cuando lancemos. 
-              Te notificaremos apenas esté disponible.
+              Comparte los detalles de tu vacante y la revisaremos en las próximas horas para publicarla.
             </p>
           </div>
 
           <div className="bg-white rounded-xl shadow-lg border p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <Label className="text-base font-medium text-gray-900 mb-4 block">
-                  ¿Qué eres?
-                </Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setAudience('candidate')}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      audience === 'candidate'
-                        ? 'border-primary bg-primary/5'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <Users className="w-6 h-6 mx-auto mb-2 text-primary" />
-                    <div className="font-medium">Busco Trabajo</div>
-                    <div className="text-sm text-gray-500">Candidato</div>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setAudience('employer')}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      audience === 'employer'
-                        ? 'border-primary bg-primary/5'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <Briefcase className="w-6 h-6 mx-auto mb-2 text-primary" />
-                    <div className="font-medium">Busco Personal</div>
-                    <div className="text-sm text-gray-500">Empleador</div>
-                  </button>
+              <div className="space-y-6">
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="restaurantName">Nombre del Restaurante *</Label>
+                    <Input
+                      id="restaurantName"
+                      placeholder="Restaurante El Buen Sabor"
+                      value={formData.restaurantName}
+                      onChange={(e) => updateFormData('restaurantName', e.target.value)}
+                      className={errors.restaurantName ? 'border-red-500' : ''}
+                    />
+                    {errors.restaurantName && (
+                      <p className="text-red-500 text-sm">{errors.restaurantName}</p>
+                    )}
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="contactName">
+                        Nombre de Contacto *
+                        <br />
+                        <span className="text-xs text-gray-500 font-normal">(Privado - no se incluye en la publicación)</span>
+                      </Label>
+                      <Input
+                        id="contactName"
+                        placeholder="Juan Pérez"
+                        value={formData.contactName}
+                        onChange={(e) => updateFormData('contactName', e.target.value)}
+                        className={errors.contactName ? 'border-red-500' : ''}
+                      />
+                      {errors.contactName && (
+                        <p className="text-red-500 text-sm">{errors.contactName}</p>
+                      )}
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label htmlFor="contactPhone">
+                        Teléfono de Contacto *
+                        <br />
+                        <span className="text-xs text-gray-500 font-normal">(Privado - no se incluye en la publicación)</span>
+                      </Label>
+                      <Input
+                        id="contactPhone"
+                        type="tel"
+                        placeholder="55 1234 5678"
+                        value={formData.contactPhone}
+                        onChange={(e) => updateFormData('contactPhone', e.target.value)}
+                        className={errors.contactPhone ? 'border-red-500' : ''}
+                      />
+                      {errors.contactPhone && (
+                        <p className="text-red-500 text-sm">{errors.contactPhone}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="flex items-center">
+                      <Mail className="w-4 h-4 mr-2" />
+                      Correo electrónico * 
+                      <span className="text-xs text-gray-500 font-normal ml-2">(Privado - no se incluye en la publicación)</span>
+                    </Label>
+                    <Input
+                      id="email"
+                      type="text"
+                      placeholder="tu@email.com"
+                      value={formData.email}
+                      onChange={(e) => updateFormData('email', e.target.value)}
+                      className={errors.email ? 'border-red-500' : ''}
+                      autoComplete="off"
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm">{errors.email}</p>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="position">Puesto que Buscas *</Label>
+                    <Input
+                      id="position"
+                      placeholder="Mesero, Cocinero, Barista..."
+                      value={formData.position}
+                      onChange={(e) => updateFormData('position', e.target.value)}
+                      className={errors.position ? 'border-red-500' : ''}
+                    />
+                    {errors.position && (
+                      <p className="text-red-500 text-sm">{errors.position}</p>
+                    )}
+                  </div>
                 </div>
-                {errors.audience && (
-                  <p className="text-red-500 text-sm mt-2">{errors.audience}</p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="city">
+                  <span className="flex items-center">
+                    <MapPin className="w-4 h-4 mr-2 flex-shrink-0" />
+                    Colonia *
+                  </span>
+                </Label>
+                <Input
+                  id="city"
+                  type="text"
+                  placeholder="Ej: Roma Norte, Condesa, Polanco..."
+                  value={formData.city}
+                  onChange={(e) => updateFormData('city', e.target.value)}
+                  className={errors.city ? 'border-red-500' : ''}
+                />
+                {errors.city && (
+                  <p className="text-red-500 text-sm">{errors.city}</p>
+                )}
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="salary">Salario (Opcional)</Label>
+                <Input
+                  id="salary"
+                  placeholder="Ej: $8,000 - $12,000 MXN mensuales"
+                  value={formData.salary}
+                  onChange={(e) => updateFormData('salary', e.target.value)}
+                />
+                <p className="text-sm text-gray-500">Este campo es opcional y nos ayuda a ofrecer mejores oportunidades</p>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="description">Descripción del Puesto *</Label>
+                <Textarea
+                  id="description"
+                  rows={4}
+                  placeholder="Describe las responsabilidades, horarios, experiencia requerida..."
+                  value={formData.description}
+                  onChange={(e) => updateFormData('description', e.target.value)}
+                  className={errors.description ? 'border-red-500' : ''}
+                />
+                {errors.description && (
+                  <p className="text-red-500 text-sm">{errors.description}</p>
                 )}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="flex items-center">
-                    <Mail className="w-4 h-4 mr-2" />
-                    Correo electrónico *
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="tu@email.com"
-                    value={formData.email}
-                    onChange={(e) => updateFormData('email', e.target.value)}
-                    className={errors.email ? 'border-red-500' : ''}
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 text-sm">{errors.email}</p>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="city" className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-2" />
-                    Ciudad *
-                  </Label>
-                  <Input
-                    id="city"
-                    type="text"
-                    placeholder="Ej: Ciudad de México, Guadalajara..."
-                    value={formData.city}
-                    onChange={(e) => updateFormData('city', e.target.value)}
-                    className={errors.city ? 'border-red-500' : ''}
-                  />
-                  {errors.city && (
-                    <p className="text-red-500 text-sm">{errors.city}</p>
-                  )}
-                </div>
-              </div>
-
-              {audience === 'employer' && (
-                <div className="space-y-6 p-4 bg-blue-50 rounded-lg">
-                  <h3 className="font-medium text-gray-900">Información de la empresa</h3>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="companyName">Nombre de la empresa *</Label>
-                    <Input
-                      id="companyName"
-                      placeholder="Restaurante El Buen Sabor"
-                      value={formData.companyName}
-                      onChange={(e) => updateFormData('companyName', e.target.value)}
-                      className={errors.companyName ? 'border-red-500' : ''}
-                    />
-                    {errors.companyName && (
-                      <p className="text-red-500 text-sm">{errors.companyName}</p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="needs">¿Qué tipo de personal necesitas? (Opcional)</Label>
-                    <Input
-                      id="needs"
-                      placeholder="Ej: Meseros, cocineros, bartender..."
-                      value={formData.needs}
-                      onChange={(e) => updateFormData('needs', e.target.value)}
-                    />
-                  </div>
-                </div>
-              )}
-
-              {audience === 'candidate' && (
-                <div className="space-y-6 p-4 bg-green-50 rounded-lg">
-                  <h3 className="font-medium text-gray-900">Información profesional</h3>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="role">¿Qué posición buscas? (Opcional)</Label>
-                    <Input
-                      id="role"
-                      type="text"
-                      placeholder="Ej: Mesero, cocinero, barista..."
-                      value={formData.role}
-                      onChange={(e) => updateFormData('role', e.target.value)}
-                    />
-                  </div>
-                </div>
-              )}
 
 
               <div className="flex items-start space-x-3">
@@ -439,7 +443,7 @@ export default function WaitlistForm() {
                 type="submit"
                 size="lg"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold uppercase tracking-wider"
-                disabled={isSubmitting || !audience || isRateLimited}
+                disabled={isSubmitting || isRateLimited}
               >
                 {isSubmitting ? (
                   <>
@@ -447,12 +451,12 @@ export default function WaitlistForm() {
                     Enviando...
                   </>
                 ) : (
-                  'SIGN UP →'
+  'PUBLICAR VACANTE →'
                 )}
               </Button>
 
               <p className="text-sm text-gray-600 text-center">
-                Únete a 11,000 profesionales gastronómicos ✨
+                Revisaremos tu vacante en las próximas horas y te notificaremos cuando esté publicada ✨
               </p>
             </form>
           </div>

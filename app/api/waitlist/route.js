@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { sanitizeFormData, hasXSSPattern } from '@/lib/security'
 import { validateCSRFToken } from '@/lib/csrf'
@@ -62,7 +62,11 @@ async function handlePOST(request) {
       )
     }
 
-    const supabase = await createClient()
+    // Create a simple anonymous client for API route - SAME AS job_postings
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    )
     const body = await request.json()
 
     // Sanitize all input data
@@ -126,8 +130,7 @@ async function handlePOST(request) {
 
     const { data, error } = await supabase
       .from('waitlist')
-      .insert(insertData)
-      .select()
+      .insert(insertData, { returning: 'minimal' })
 
     if (error) {
       // Handle specific database constraint errors
@@ -147,8 +150,7 @@ async function handlePOST(request) {
     return NextResponse.json(
       { 
         success: true, 
-        message: 'Registro exitoso en lista de espera',
-        id: data[0]?.id 
+        message: 'Registro exitoso en lista de espera'
       },
       { 
         status: 201,
