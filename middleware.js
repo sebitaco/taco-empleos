@@ -60,12 +60,13 @@ export default clerkMiddleware(async (auth, request) => {
   // Content Security Policy - comprehensive policy for production security
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' challenges.cloudflare.com plausible.io *.clerk.accounts.dev",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: challenges.cloudflare.com plausible.io *.clerk.accounts.dev https://promoted-snail-21.clerk.accounts.dev",
+    "worker-src 'self' blob:",
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: blob: img.clerk.com",
-    "font-src 'self'",
-    "connect-src 'self' challenges.cloudflare.com plausible.io *.supabase.co *.upstash.io api.clerk.dev clerk.*.lcl.dev *.clerk.accounts.dev",
-    "frame-src challenges.cloudflare.com *.clerk.accounts.dev",
+    "img-src 'self' data: blob: img.clerk.com https://img.clerk.com",
+    "font-src 'self' data:",
+    "connect-src 'self' https: wss: challenges.cloudflare.com plausible.io *.supabase.co *.upstash.io api.clerk.dev *.clerk.dev clerk.*.lcl.dev *.clerk.accounts.dev https://promoted-snail-21.clerk.accounts.dev",
+    "frame-src 'self' challenges.cloudflare.com *.clerk.accounts.dev https://promoted-snail-21.clerk.accounts.dev",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'"

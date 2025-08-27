@@ -148,7 +148,7 @@ export default function JobDetailView({ job }) {
                   className="border-blue-200 text-blue-600 hover:bg-blue-50"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
-                  Aplicar ahora
+                  Ver publicación original
                 </Button>
               </div>
             </div>

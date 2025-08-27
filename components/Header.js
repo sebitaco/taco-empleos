@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ChevronDown } from 'lucide-react'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 export default function Header() {
   const [recursosDropdownOpen, setRecursosDropdownOpen] = useState(false)
@@ -78,19 +79,48 @@ export default function Header() {
               </div>
             </nav>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons and User Menu */}
             <div className="flex items-center space-x-3">
+              {/* Show UserButton when signed in */}
+              <SignedIn>
+                <UserButton 
+                  afterSignOutUrl="/"
+                  appearance={{
+                    elements: {
+                      avatarBox: "w-9 h-9",
+                      userButtonTrigger: "focus:ring-2 focus:ring-blue-500 rounded-full",
+                      userButtonPopoverCard: "shadow-lg",
+                      userButtonPopoverFooter: "hidden"
+                    }
+                  }}
+                />
+              </SignedIn>
+              
+              {/* Show buttons when signed out */}
+              <SignedOut>
+                <Link href="/sign-in">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="hidden sm:inline-flex"
+                  >
+                    Iniciar sesión
+                  </Button>
+                </Link>
+                <Link href="/sign-up">
+                  <Button
+                    size="sm"
+                  >
+                    Registrarse
+                  </Button>
+                </Link>
+              </SignedOut>
+
+              {/* Always show Publicar Empleo button */}
               <Button
-                variant="outline"
                 size="sm"
                 onClick={scrollToWaitlist}
                 className="hidden sm:inline-flex"
-              >
-                Unirse a la Lista
-              </Button>
-              <Button
-                size="sm"
-                onClick={scrollToWaitlist}
               >
                 Publicar Empleo
               </Button>
