@@ -33,7 +33,7 @@ export default function Page() {
                 'bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             }
           }}
-          afterSignInUrl={redirectUrl}
+          fallbackRedirectUrl={redirectUrl}
           signUpUrl="/sign-up"
         />
         

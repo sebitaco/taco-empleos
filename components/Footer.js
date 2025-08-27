@@ -34,10 +34,9 @@ export default function Footer() {
               {/* CEO Contact */}
               <div className="text-center">
                 <div className="text-gray-300 text-sm">
-                  <p className="mb-1">¿Tienes dudas o preguntas?</p>
                   <div className="flex items-center justify-center space-x-2">
                     <Mail className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-400">Escríbele directo al CEO:</span>
+                    <span className="text-gray-400">Escríbele al CEO:</span>
                     <a 
                       href="mailto:sebi@tacoempleos.com.mx" 
                       className="text-white hover:text-orange-300 transition-colors font-medium focus:outline-none focus:text-orange-300"
