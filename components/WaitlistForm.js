@@ -452,7 +452,7 @@ export default function WaitlistForm() {
               </Button>
 
               <p className="text-sm text-gray-600 text-center">
-                Únete a 42k profesionales + obtén nuestra Guía Salarial gratis ✨
+                Únete a 11,000 profesionales gastronómicos ✨
               </p>
             </form>
           </div>

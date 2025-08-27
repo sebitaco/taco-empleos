@@ -65,7 +65,7 @@ export default clerkMiddleware(async (auth, request) => {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: img.clerk.com https://img.clerk.com",
     "font-src 'self' data:",
-    "connect-src 'self' https: wss: challenges.cloudflare.com plausible.io *.supabase.co *.upstash.io api.clerk.dev *.clerk.dev clerk.*.lcl.dev *.clerk.accounts.dev https://promoted-snail-21.clerk.accounts.dev",
+    "connect-src 'self' https: wss: challenges.cloudflare.com plausible.io *.supabase.co *.upstash.io api.clerk.dev *.clerk.dev *.clerk.accounts.dev https://promoted-snail-21.clerk.accounts.dev https://*.lcl.dev",
     "frame-src 'self' challenges.cloudflare.com *.clerk.accounts.dev https://promoted-snail-21.clerk.accounts.dev",
     "frame-ancestors 'none'",
     "base-uri 'self'",

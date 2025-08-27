@@ -157,7 +157,7 @@ export default function HeroSearch() {
                 {/* Social Proof Section */}
                 <div className="mt-8 flex items-center justify-center">
                   <p className="text-sm text-gray-600 flex items-center">
-                    Únete a 11,000 gastronómicos que reciben vacantes por correo
+                    Únete a 11,000 gastronómicos que reciben alertas de trabajo semanales
                     <TrendingUp className="w-5 h-5 ml-2 text-green-500" />
                   </p>
                 </div>
