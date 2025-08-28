@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 import { sanitizeFormData, hasXSSPattern } from '@/lib/security'
-import { validateCSRFToken } from '@/lib/csrf'
+import { validateCSRFToken, shouldValidateCSRF } from '@/lib/csrf'
 import { withErrorHandler, createValidationError, createRateLimitError } from '@/lib/errorHandler'
 import { checkRateLimit, getIPAddress, getRateLimitHeaders, getRateLimitErrorMessage } from '@/lib/ratelimit'
 
@@ -28,13 +28,15 @@ async function verifyTurnstile(token) {
 
 async function handlePOST(request) {
   try {
-    // Validate CSRF token first
-    const csrfResult = await validateCSRFToken(request)
-    if (!csrfResult.valid) {
-      return NextResponse.json(
-        { error: csrfResult.error },
-        { status: 403 }
-      )
+    // Validate CSRF token only if required for this endpoint
+    if (shouldValidateCSRF('/api/waitlist', 'POST')) {
+      const csrfResult = await validateCSRFToken(request)
+      if (!csrfResult.valid) {
+        return NextResponse.json(
+          { error: csrfResult.error },
+          { status: 403 }
+        )
+      }
     }
     
     // Get IP address for rate limiting
