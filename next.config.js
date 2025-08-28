@@ -4,6 +4,9 @@ import CopyWebpackPlugin from 'copy-webpack-plugin'
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false, // Disable X-Powered-By header for security
+  experimental: {
+    instrumentationHook: true, // Enable instrumentation for Aikido initialization
+  },
   images: {
     domains: [],
   },

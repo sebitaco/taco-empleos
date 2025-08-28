@@ -1,6 +1,3 @@
-// Initialize Aikido Security Firewall first
-import '@/lib/security/aikido'
-
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
