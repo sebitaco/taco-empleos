@@ -1,3 +1,6 @@
+// Initialize Aikido Security Firewall first
+import '@/lib/security/aikido'
+
 import { NextResponse } from 'next/server'
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { createAuthMiddleware, defaultAuthConfig } from '@/lib/auth/middleware'

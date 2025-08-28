@@ -4,6 +4,9 @@ import postgres from 'postgres'
 import { jobs } from '@/lib/db/schema'
 import { desc, count, eq, sql } from 'drizzle-orm'
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 const connectionString = process.env.DATABASE_URL
 if (!connectionString) {
   throw new Error('DATABASE_URL environment variable is required')
@@ -145,11 +148,11 @@ const staticJobs = [
 
 export async function GET(request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const page = parseInt(searchParams.get('page') || '1')
-    const limit = parseInt(searchParams.get('limit') || '10')
-    const location = searchParams.get('location')
-    const search = searchParams.get('search')
+    const url = new URL(request.url)
+    const page = parseInt(url.searchParams.get('page') || '1')
+    const limit = parseInt(url.searchParams.get('limit') || '10')
+    const location = url.searchParams.get('location')
+    const search = url.searchParams.get('search')
 
     // Validate pagination parameters
     if (page < 1 || limit < 1 || limit > 50) {

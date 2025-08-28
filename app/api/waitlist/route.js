@@ -113,7 +113,9 @@ async function handlePOST(request) {
       throw createValidationError('El nombre de la empresa es requerido')
     }
 
-    // Role is now optional for candidates
+    if (audience === 'candidate' && !role) {
+      throw createValidationError('La posición es requerida')
+    }
 
     const insertData = {
       audience,
@@ -123,7 +125,7 @@ async function handlePOST(request) {
       consent,
       company_name: audience === 'employer' ? companyName : null,
       needs: audience === 'employer' ? needs : null,
-      role: audience === 'candidate' ? (role || null) : null,
+      role: audience === 'candidate' ? role : null,
       experience_years: null,
       preferred_city: null,
     }

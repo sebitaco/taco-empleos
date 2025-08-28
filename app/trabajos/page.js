@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { MapPin, Search, ChevronLeft, ChevronRight, Filter, X } from 'lucide-react'
 
-export default function TrabajosPage() {
+function TrabajosContent() {
   const [jobs, setJobs] = useState([])
   const [loading, setLoading] = useState(true)
   const [pagination, setPagination] = useState(null)
@@ -396,5 +396,39 @@ export default function TrabajosPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function TrabajosPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50">
+        <div className="bg-white border-b">
+          <div className="container mx-auto px-4 py-6 max-w-6xl">
+            <div className="animate-pulse">
+              <div className="h-4 bg-gray-200 rounded w-20 mb-4"></div>
+              <div className="h-8 bg-gray-200 rounded w-64 mb-2"></div>
+              <div className="h-4 bg-gray-200 rounded w-48"></div>
+            </div>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 py-8 max-w-6xl">
+          <div className="space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="bg-white rounded-lg border p-6 animate-pulse">
+                <div className="h-6 bg-gray-200 rounded w-1/3 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
+                <div className="flex gap-2">
+                  <div className="h-6 bg-gray-200 rounded w-16"></div>
+                  <div className="h-6 bg-gray-200 rounded w-20"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    }>
+      <TrabajosContent />
+    </Suspense>
   )
 }

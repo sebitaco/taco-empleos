@@ -4,6 +4,9 @@ import postgres from 'postgres'
 import { jobs } from '@/lib/db/schema'
 import { eq } from 'drizzle-orm'
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 const connectionString = process.env.DATABASE_URL
 if (!connectionString) {
   throw new Error('DATABASE_URL environment variable is required')

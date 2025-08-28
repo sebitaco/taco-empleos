@@ -1,7 +1,5 @@
 "use client";
 
-import Navigation from "@/components/Header";
-import Footer from "@/components/Footer";
 import { useEffect } from "react";
 
 export default function PoliticaPrivacidad() {
@@ -47,7 +45,6 @@ export default function PoliticaPrivacidad() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      <Navigation />
       
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
@@ -60,26 +57,22 @@ export default function PoliticaPrivacidad() {
             {/* Sección 1 */}
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-red-600 dark:text-red-400 mb-4">
-                1. NUESTRO COMROMISO CON LA PRIVACIDAD
+                1. NUESTRO COMPROMISO CON LA PRIVACIDAD
               </h2>
               <div className="space-y-4 text-justify leading-relaxed">
                 <p>
-                En tacoempleos.com.mx (en adelante, "TACOEMPLEOS"), respetamos la privacidad de todo usuario que visite y/o utilice el sitio web tacoempleos.com.mx (en adelante, el "Sitio Web" o la "Plataforma"). Por favor, tome el tiempo suficiente para leer esta Política detenidamente.Al aceptar esta Política, Usted (el "Usuario") afirma:
+                  En tacoempleos.com.mx (en adelante, "TACOEMPLEOS"), respetamos la privacidad de todo usuario que visite y/o utilice el sitio web tacoempleos.com.mx (en adelante, el "Sitio Web" o la "Plataforma"). Por favor, tome el tiempo suficiente para leer esta Política detenidamente.Al aceptar esta Política, Usted (el "Usuario") afirma:
+                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>que ha leído libremente todos los enunciados;</li>
+                  <li>que está de acuerdo en brindar su información personal y, cuando corresponda, presta su consentimiento previo, expreso e informado para el tratamiento que a continuación se describe; y</li>
+                  <li>que estos enunciados los tiene por notificados, entendidos y aceptados en cumplimiento con la normativa aplicable.</li>
+                </ul>
+                <p>
+                  En caso de no estar de acuerdo con los términos de esta Política de Privacidad, por favor no acepte esta Política ni utilice la Plataforma.
                 </p>
                 <p>
-                  que ha leído libremente todos los enunciados;
-                </p>
-                <p>
-                que está de acuerdo en brindar su información personal y, cuando corresponda, presta su consentimiento previo, expreso e informado para el tratamiento que a continuación se describe; y
-                </p>
-                <p>
-                que estos enunciados los tiene por notificados, entendidos y aceptados en cumplimiento con la normativa aplicable.
-                </p>
-                <p>
-                En caso de no estar de acuerdo con los términos de esta Política de Privacidad, por favor no acepte esta Política ni utilice la Plataforma.
-                </p>
-                <p>
-                Esta Política de Privacidad (la "Política") indica y establece la información que TACOEMPLEOS puede recopilar y el uso que le da a los datos personales. También informa y explica las medidas de control tomadas para proteger sus datos, la legitimidad del tratamiento realizado por parte de TACOEMPLEOS, y la forma en que se puede contactar con el responsable de tratamiento en caso de que existan preguntas o aclaraciones relacionadas con esta Política.
+                  Esta Política de Privacidad (la "Política") indica y establece la información que TACOEMPLEOS puede recopilar y el uso que le da a los datos personales. También informa y explica las medidas de control tomadas para proteger sus datos, la legitimidad del tratamiento realizado por parte de TACOEMPLEOS, y la forma en que se puede contactar con el responsable de tratamiento en caso de que existan preguntas o aclaraciones relacionadas con esta Política.
                 </p>
               </div>
             </section>
@@ -96,12 +89,10 @@ export default function PoliticaPrivacidad() {
                 
                 <p>
                   <strong>2.2.</strong> Cuando haya otorgado su consentimiento o cuando la ley aplicable lo autorice, TACOEMPLEOS, a través de la Plataforma, recopilará información sobre el Usuario que pueda identificarlo personalmente, como, por ejemplo, su nombre, dirección, número de teléfono, dirección de correo electrónico, antecedentes académicos y/o laborales (en adelante, la "Información Personal"), como requisito para su registración en la Plataforma. Si el Usuario no desea que recopilemos su Información Personal, le solicitamos que por favor se abstenga de proporcionarla y/o de utilizar la Plataforma y/o de aceptar la presente Política. Si bien la provisión de la Información Personal es completamente voluntaria, el Usuario deberá tener en cuenta que, en caso de no proporcionarnos su Información Personal a los fines indicados en los términos y condiciones de uso de la Plataforma, o de proporcionarnos datos falsos o inexactos, entonces el Usuario no podrá registrarse en la Plataforma ni acceder a utilizar los servicios e información disponibles a través de la Plataforma
-
                 </p>
 
                 <p>
                   <strong>2.3.</strong> En caso de que el Usuario nos brinde su Información Personal, le comunicamos que esa Información Personal será objeto de tratamiento automatizado e incorporada a la base de datos de TACOEMPLEOS.
-
                 </p>
 
                 <p>
@@ -109,45 +100,23 @@ export default function PoliticaPrivacidad() {
                 </p>
 
                 <p>
-                  <strong>2.5.</strong> 2.5. La Información Personal que sea recabada mediante la Plataforma podrá ser utilizada para las siguientes finalidades:
+                  <strong>2.5.</strong> La Información Personal que sea recabada mediante la Plataforma podrá ser utilizada para las siguientes finalidades:
                 </p>
 
-                <p>
-                Atender la solicitud, proveer, analizar, cobrar, gestionar y en su caso formalizar los servicios o productos solicitados;
-                </p>
-                <p>
-                Proporcionar información vía telefónica, WhatsApp o mensaje SMS, o electrónica, respecto al servicio o producto contratado, o por contratar;
-                </p>
-                <p>
-                Llevar a cabo la transferencia de Información Personal y/o de información comercial recabados por TACOEMPLEOS en favor de empresas del grupo empresarial y de cualquier tercero (incluidos clientes y proveedores de servicios contratados por TACOEMPLEOS), para que puedan tratarla con las finalidades aquí descriptas;
-                </p>
-                <p>
-                Preparar, implementar, promocionar y ofrecer nuevos productos y servicios, o bien, nuevos atributos, modalidades o características a los productos y servicios que ya están a su disposición;
-                </p>
-                <p>
-                Gestionar el envío de comunicados con avisos, mensajes, novedades, invitación a eventos y reuniones, sea a través de medios impresos, electrónicos, telefónicos y/o presenciales con fines publicitarios, promocionales, de prospección comercial o de mercadotecnia, a menos que usted nos manifieste expresamente el deseo de no recibir los mismos;
-                </p>
-                <p>
-                Efectuar estudios de mercado y de consumo a efectos de ofrecer productos y servicios personalizados, así como publicidad y contenidos más adecuados según las necesidades;
-                </p>
-                <p>
-                Proteger, reconocer o defender los derechos y propiedad de TACOEMPLEOS, así como su información confidencial;
-                </p>
-                <p>
-                  Mantener la seguridad de nuestra Plataforma, de nuestros Usuarios y/o clientes;
-                </p>
-                <p>
-                  Con fines de marketing, mercadotécnicos, publicitarios o de prospección comercial, ya sea directamente por parte de TACOEMPLEOS, de empresas del grupo empresarial y de cualquier tercero (incluidos clientes, proveedores de servicios contratados por TACOEMPLEOS o colaboradores comerciales);
-                </p>
-                <p>
-                  Proporcionar información a un futuro comprador de una entidad de TACOEMPLEOS en una adquisición o fusión, incluyendo permitir su acceso durante el proceso de debida diligencia;
-                </p>
-                <p>
-                  Proporcionar información relevante a auditores externos, asesores legales, contables e investigadores; y
-                </p>
-                <p>
-                  Ofrecer el servicio de nuestros aliados comerciales y prestadores de servicios.
-                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Atender la solicitud, proveer, analizar, cobrar, gestionar y en su caso formalizar los servicios o productos solicitados;</li>
+                  <li>Proporcionar información vía telefónica, WhatsApp o mensaje SMS, o electrónica, respecto al servicio o producto contratado, o por contratar;</li>
+                  <li>Llevar a cabo la transferencia de Información Personal y/o de información comercial recabados por TACOEMPLEOS en favor de empresas del grupo empresarial y de cualquier tercero (incluidos clientes y proveedores de servicios contratados por TACOEMPLEOS), para que puedan tratarla con las finalidades aquí descriptas;</li>
+                  <li>Preparar, implementar, promocionar y ofrecer nuevos productos y servicios, o bien, nuevos atributos, modalidades o características a los productos y servicios que ya están a su disposición;</li>
+                  <li>Gestionar el envío de comunicados con avisos, mensajes, novedades, invitación a eventos y reuniones, sea a través de medios impresos, electrónicos, telefónicos y/o presenciales con fines publicitarios, promocionales, de prospección comercial o de mercadotecnia, a menos que usted nos manifieste expresamente el deseo de no recibir los mismos;</li>
+                  <li>Efectuar estudios de mercado y de consumo a efectos de ofrecer productos y servicios personalizados, así como publicidad y contenidos más adecuados según las necesidades;</li>
+                  <li>Proteger, reconocer o defender los derechos y propiedad de TACOEMPLEOS, así como su información confidencial;</li>
+                  <li>Mantener la seguridad de nuestra Plataforma, de nuestros Usuarios y/o clientes;</li>
+                  <li>Con fines de marketing, mercadotécnicos, publicitarios o de prospección comercial, ya sea directamente por parte de TACOEMPLEOS, de empresas del grupo empresarial y de cualquier tercero (incluidos clientes, proveedores de servicios contratados por TACOEMPLEOS o colaboradores comerciales);</li>
+                  <li>Proporcionar información a un futuro comprador de una entidad de TACOEMPLEOS en una adquisición o fusión, incluyendo permitir su acceso durante el proceso de debida diligencia;</li>
+                  <li>Proporcionar información relevante a auditores externos, asesores legales, contables e investigadores; y</li>
+                  <li>Ofrecer el servicio de nuestros aliados comerciales y prestadores de servicios.</li>
+                </ul>
               </div>
             </section>
 
@@ -160,31 +129,21 @@ export default function PoliticaPrivacidad() {
                 <p>
                   <strong>3.1.</strong> TACOEMPLEOS recopila Información Personal en línea cuando, entre otros casos:
                 </p>
-                <p>
-                  El Usuario se registra en la Plataforma;
-                </p>
-                <p>
-                  El Usuario utiliza la Plataforma y/o los servicios ofrecidos a través de la misma;
-                </p>
-                <p>
-                  El Usuario nos envía preguntas, consultas o comentarios o se contacta con la Plataforma;
-                </p>
-                <p>
-                  El Usuario solicita información o materiales;
-                </p>
-                <p>
-                  El Usuario publica comentarios en la Plataforma o provee de cualquier forma información a la Plataforma (chats, foros, uploads, etc.); y/o
-                </p>
-                <p>
-                  El Usuario utiliza el chatbot disponible en la Plataforma para cualquiera de los casos anteriores.
-                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>El Usuario se registra en la Plataforma;</li>
+                  <li>El Usuario utiliza la Plataforma y/o los servicios ofrecidos a través de la misma;</li>
+                  <li>El Usuario nos envía preguntas, consultas o comentarios o se contacta con la Plataforma;</li>
+                  <li>El Usuario solicita información o materiales;</li>
+                  <li>El Usuario publica comentarios en la Plataforma o provee de cualquier forma información a la Plataforma (chats, foros, uploads, etc.); y/o</li>
+                  <li>El Usuario utiliza el chatbot disponible en la Plataforma para cualquiera de los casos anteriores.</li>
+                </ul>
 
                 <p>
                   <strong>3.2.</strong> El tipo de información recopilada puede incluir su nombre, apellido, ciudad de origen y residencia, salario pretendido, tipo y número de documento, teléfono, dirección de correo electrónico, antecedentes académicos y/o laborales y/o cualquier otra información que permita individualizarlo y contactarlo, dentro del marco otorgado por su consentimiento y permitido por la legislación aplicable, como así también información sobre el uso que usted haga de la Plataforma, incluyendo cómo interactúa con la Plataforma y sus distintas funcionalidades. En todos los casos que el Usuario brinde Información Personal, y de acuerdo con la legislación vigente, el Usuario declara que la Información Personal brindada es correcta, completa, exacta, cierta y actual.
                 </p>
 
                 <p>
-                  <strong>3.3.</strong> Consentimiento para tratamiento y compartición de datos
+                  <strong>3.3. Consentimiento para tratamiento y compartición de datos</strong>
                 </p>
                 <p>
                   En los casos que nos brinde su Información Personal, el Usuario acepta y presta su consentimiento libre, incondicionado, previo, expreso e informado para que dicha Información Personal sea utilizada con las finalidades arriba mencionadas y autoriza a que la misma sea tratada, almacenada, recopilada en las bases de datos de propiedad de TACOEMPLEOS. En tal sentido, usted autoriza a que su Información Personal sea compartida con los clientes de TACOEMPLEOS según se indica en la cláusula 6 de esta Política, incluyendo todos los datos e información que proporcione en su perfil (por ejemplo: nombre, correo electrónico, experiencia, habilidades, educación, foto, currículum y cualquier otro contenido o archivo adjunto que suba). Asimismo, cuando corresponda, el Usuario acepta y presta su consentimiento libre, previo, expreso, incondicionado e informado con los términos de la presente Política.
@@ -193,15 +152,11 @@ export default function PoliticaPrivacidad() {
                 <p>
                   <strong>3.4.</strong> Se deja constancia que:
                 </p>
-                <p>
-                  el detalle de los terceros con acceso a los datos personales y cualquier variación de estos será actualizada en la Política;
-                </p>
-                <p>
-                  la autorización del Usuario es necesaria para cumplir con las finalidades antes indicadas, cuando no exista otra base legal que permita el tratamiento de la Información Personal para dichas finalidades; y,
-                </p>
-                <p>
-                  el Usuario podrá ejercer los derechos de acceso, rectificación, actualización y supresión de los datos personales, para lo cual puede enviar la solicitud de ejercicio de sus derechos reconocidos en la legislación aplicable, escribiendo Canal de Contacto (conforme se define en la cláusula 13.5 de esta Política).
-                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>el detalle de los terceros con acceso a los datos personales y cualquier variación de estos será actualizada en la Política;</li>
+                  <li>la autorización del Usuario es necesaria para cumplir con las finalidades antes indicadas, cuando no exista otra base legal que permita el tratamiento de la Información Personal para dichas finalidades; y,</li>
+                  <li>el Usuario podrá ejercer los derechos de acceso, rectificación, actualización y supresión de los datos personales, para lo cual puede enviar la solicitud de ejercicio de sus derechos reconocidos en la legislación aplicable, escribiendo Canal de Contacto (conforme se define en la cláusula 13.5 de esta Política).</li>
+                </ul>
               </div>
             </section>
 
@@ -243,27 +198,15 @@ export default function PoliticaPrivacidad() {
                   <strong>5.2.</strong> TACOEMPLEOS puede utilizar esta información para:
                 </p>
 
-                <p>
-                  analizar las tendencias;
-                </p>
-                <p>
-                  administrar la Plataforma;
-                </p>
-                <p>
-                  realizar un seguimiento de los movimientos alrededor de la Plataforma;
-                </p>
-                <p>
-                  recopilar información demográfica sobre nuestra base de usuarios como un todo;
-                </p>
-                <p>
-                  la publicidad;
-                </p>
-                <p>
-                  como sea necesario para conducir nuestro negocio; y
-                </p>
-                <p>
-                  vincular estos datos recopilados automáticamente con su Información Personal.
-                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>analizar las tendencias;</li>
+                  <li>administrar la Plataforma;</li>
+                  <li>realizar un seguimiento de los movimientos alrededor de la Plataforma;</li>
+                  <li>recopilar información demográfica sobre nuestra base de usuarios como un todo;</li>
+                  <li>la publicidad;</li>
+                  <li>como sea necesario para conducir nuestro negocio; y</li>
+                  <li>vincular estos datos recopilados automáticamente con su Información Personal.</li>
+                </ul>
 
                 <p>
                   <strong>5.3.</strong> Con la mayoría de los exploradores para Internet usted puede borrar las Cookies del disco rígido de su computadora, bloquear todas las Cookies o recibir un mensaje de alerta antes de que se almacene una Cookie. Por favor, consulte las instrucciones de su explorador para conocer más sobre estas funciones.
@@ -273,26 +216,20 @@ export default function PoliticaPrivacidad() {
                   <strong>5.4.</strong> Las cookies que nuestra Plataforma utiliza son las siguientes:
                 </p>
 
-                <p>
-                  Cookies de Autenticación: permiten mostrar la información adecuada y a personalizar la experiencia del usuario, ayudándonos a determinar si ha accedido o no a la cuenta de la Plataforma.
-                </p>
-                <p>
-                  Cookies Analíticas (Analytics): supervisan el rendimiento de la Plataforma a medida que el usuario interactúa con ella;
-                </p>
-                <p>
-                  Cookies Funcionales (Functional): garantizan el correcto funcionamiento de la Plataforma, proporcionando funcionalidades y contenidos personalizados
-                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>Cookies de Autenticación:</strong> permiten mostrar la información adecuada y a personalizar la experiencia del usuario, ayudándonos a determinar si ha accedido o no a la cuenta de la Plataforma.</li>
+                  <li><strong>Cookies Analíticas (Analytics):</strong> supervisan el rendimiento de la Plataforma a medida que el usuario interactúa con ella;</li>
+                  <li><strong>Cookies Funcionales (Functional):</strong> garantizan el correcto funcionamiento de la Plataforma, proporcionando funcionalidades y contenidos personalizados</li>
+                </ul>
 
                 <p>
                   <strong>5.5.</strong> Las cookies de terceros que alojamos en nuestro Sitio Web son las siguientes:
                 </p>
 
-                <p>
-                  Analíticas: permiten monitorizar el rendimiento de nuestros sitios webs y/o herramienta, tal y como se ha indicado anteriormente. Los terceros que podrían tener acceso a esta información son: Google Analytics.
-                </p>
-                <p>
-                  Publicitarias: permiten gestionar y adaptar el contenido al servicio solicitado, y los espacios publicitarios ofertados en su caso, en nuestros sitios web. Así podemos analizar comportamientos de navegación en internet y mostrar al usuario los anuncios que mejor se adapten a sus intereses. Además, las cookies son necesarias para gestionar campañas publicitarias, mediante el seguimiento de diversas pautas como número de veces que se ha visto un anuncio, o para mejorar y gestionar la exposición de anuncios, evitando al usuario la publicidad que ya se le ha mostrado. También permiten informar, optimizar y reportar nuestras impresiones de anuncios, otros usos de los servicios de publicidad, las interacciones con estas impresiones y servicios de publicidad repercuten en las visitas al sitio, y ofrecer publicidad basada en anteriores visitas que el usuario ha realizado a nuestra web. Los terceros con los que trabajamos o podemos llegar a trabajar, que utilizan este tipo de cookies son:DoubleClick
-                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>Analíticas:</strong> permiten monitorizar el rendimiento de nuestros sitios webs y/o herramienta, tal y como se ha indicado anteriormente. Los terceros que podrían tener acceso a esta información son: Google Analytics.</li>
+                  <li><strong>Publicitarias:</strong> permiten gestionar y adaptar el contenido al servicio solicitado, y los espacios publicitarios ofertados en su caso, en nuestros sitios web. Así podemos analizar comportamientos de navegación en internet y mostrar al usuario los anuncios que mejor se adapten a sus intereses. Además, las cookies son necesarias para gestionar campañas publicitarias, mediante el seguimiento de diversas pautas como número de veces que se ha visto un anuncio, o para mejorar y gestionar la exposición de anuncios, evitando al usuario la publicidad que ya se le ha mostrado. También permiten informar, optimizar y reportar nuestras impresiones de anuncios, otros usos de los servicios de publicidad, las interacciones con estas impresiones y servicios de publicidad repercuten en las visitas al sitio, y ofrecer publicidad basada en anteriores visitas que el usuario ha realizado a nuestra web. Los terceros con los que trabajamos o podemos llegar a trabajar, que utilizan este tipo de cookies son: DoubleClick</li>
+                </ul>
 
                 <p>
                   Para consultar la política de privacidad acerca de las cookies de los referidos terceros, recomendamos acceder a sus condiciones legales a través de los anteriores enlaces. Asimismo, en caso de que desee conocer el detalle de las cookies que TACOEMPLEOS utiliza en el Sitio Web, el Usuario puede remitir un correo electrónico al Canal de Contacto, el cual será respondido por TACOEMPLEOS a la mayor brevedad posible a la casilla de correo consignada en el perfil del Usuario.
@@ -314,19 +251,14 @@ export default function PoliticaPrivacidad() {
                   La Información Personal que el Usuario suministre será reputada y tratada como confidencial. Sin perjuicio de lo expuesto, a los fines de ejecutar los Servicios, TACOEMPLEOS podrá compartir total o parcialmente la Información Personal suministrada por el Usuario, con:
                 </p>
 
-                <p>
-                  Los clientes de TacoEmpleos que acceden directamente a los perfiles de los Usuarios registrados y pueden contactarlos directamente a través de los datos de contacto que éstos proporcionen. El Usuario autoriza que se compartan con dichos clientes todos los datos e información que proporcione en su perfil —incluyendo, sin limitarse a, nombre, correo electrónico, experiencia, habilidades, educación, foto, currículum y cualquier otro contenido o archivo adjunto que suba—. Estos clientes actuarán como responsables independientes y deberán cumplir con sus propias políticas de privacidad.
-                </p>
-                <p>
-                  Autoridades judiciales, fiscales o administrativas competentes cuando nos requieran dicha información o se trate de una obligación legal.
-                </p>
-                <p>
-                  Proveedores de Servicios: esto incluye, pero sin limitarse a, nuestros proveedores de servicios de pago y nuestro proveedor de servicios de hosting de la Plataforma, que es Google LLC, ubicada en Estados Unidos de América, a donde se hace transferencia internacional de datos para lo cual el Usuario presta expresa y totalmente su consentimiento y conformidad.
-                </p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Los clientes de TacoEmpleos que acceden directamente a los perfiles de los Usuarios registrados y pueden contactarlos directamente a través de los datos de contacto que éstos proporcionen. El Usuario autoriza que se compartan con dichos clientes todos los datos e información que proporcione en su perfil —incluyendo, sin limitarse a, nombre, correo electrónico, experiencia, habilidades, educación, foto, currículum y cualquier otro contenido o archivo adjunto que suba—. Estos clientes actuarán como responsables independientes y deberán cumplir con sus propias políticas de privacidad.</li>
+                  <li>Autoridades judiciales, fiscales o administrativas competentes cuando nos requieran dicha información o se trate de una obligación legal.</li>
+                  <li>Proveedores de Servicios: esto incluye, pero sin limitarse a, nuestros proveedores de servicios de pago y nuestro proveedor de servicios de hosting de la Plataforma, que es Google LLC, ubicada en Estados Unidos de América, a donde se hace transferencia internacional de datos para lo cual el Usuario presta expresa y totalmente su consentimiento y conformidad.</li>
+                </ul>
 
                 <p>
-                  Consentimiento para el envío de Novedades y Promociones: Si el Usuario da su consentimiento expreso para el envío de Novedades y Promociones, su información podrá ser compartida con entidades financieras y compañías de seguro de primera línea, empresas del sector educativo de reconocida trayectoria, y clientes de TACOEMPLEOS. Asimismo, el Usuario, al otorgar expresamente este consentimiento, autoriza a TACOEMPLEOS a transferir y/o proporcionar su Información Personal a otras entidades de TACOEMPLEOS ubicadas en el exterior. Asimismo, el Usuario, al otorgar expresamente este consentimiento, autoriza a TACOEMPLEOS para que a su discreción pueda de ofrecerle servicios y productos de terceros basados en las preferencias que Usted indicó al momento de completar la solicitud de registro o en cualquier momento posterior; tales ofertas pueden ser efectuadas por TACOEMPLEOS o por terceros. En caso de que el Usuario desee dejar de compartir esos datos y/o dejar de recibir información de este estilo, deberá informar a TACOEMPLEOS de este particular por escrito al Canal de Contacto.
-
+                  <strong>Consentimiento para el envío de Novedades y Promociones:</strong> Si el Usuario da su consentimiento expreso para el envío de Novedades y Promociones, su información podrá ser compartida con entidades financieras y compañías de seguro de primera línea, empresas del sector educativo de reconocida trayectoria, y clientes de TACOEMPLEOS. Asimismo, el Usuario, al otorgar expresamente este consentimiento, autoriza a TACOEMPLEOS a transferir y/o proporcionar su Información Personal a otras entidades de TACOEMPLEOS ubicadas en el exterior. Asimismo, el Usuario, al otorgar expresamente este consentimiento, autoriza a TACOEMPLEOS para que a su discreción pueda de ofrecerle servicios y productos de terceros basados en las preferencias que Usted indicó al momento de completar la solicitud de registro o en cualquier momento posterior; tales ofertas pueden ser efectuadas por TACOEMPLEOS o por terceros. En caso de que el Usuario desee dejar de compartir esos datos y/o dejar de recibir información de este estilo, deberá informar a TACOEMPLEOS de este particular por escrito al Canal de Contacto.
                 </p>
 
                 <p>
@@ -339,7 +271,6 @@ export default function PoliticaPrivacidad() {
 
                 <p>
                   TACOEMPLEOS será responsable del cumplimiento efectivo de las obligaciones referentes al tratamiento de Información Personal por sus empresas relacionadas, sin perjuicio de la responsabilidad que les quepa a éstas por cualquier incumplimiento de tales obligaciones. Del mismo modo, en caso de que el tratamiento de Información Personal se haya de efectuar por empresas proveedoras de servicios para TACOEMPLEOS, aliados comerciales o sus empresas relacionadas, dichas empresas deberán asumir compromisos de confidencialidad y adoptar medidas que aseguren el debido cumplimiento de las obligaciones establecidas en ley aplicable.
-
                 </p>
               </div>
             </section>
@@ -351,8 +282,7 @@ export default function PoliticaPrivacidad() {
               </h2>
               <div className="space-y-4 text-justify leading-relaxed">
                 <p>
-                  <strong>7.1.</strong> Para prevenir cualquier acceso no autorizado, mantener la precisión de los datos y asegurar el uso correcto de su Información Personal, TACOEMPLEOS ha puesto en uso ciertos medios físicos, electrónicos, administrativos y procedimientos de seguridad para resguardar y asegurar la Información Personal que recopilamos en línea de la mejor manera posible. TACOEMPLEOS resguarda la Información Personal de acuerdo con estándares y procedimientos de seguridad establecidos y comúnmente utilizados en la industria, y continuamente evaluamos nueva tecnología para proteger esa información de la mejor manera posible. 
-
+                  <strong>7.1.</strong> Para prevenir cualquier acceso no autorizado, mantener la precisión de los datos y asegurar el uso correcto de su Información Personal, TACOEMPLEOS ha puesto en uso ciertos medios físicos, electrónicos, administrativos y procedimientos de seguridad para resguardar y asegurar la Información Personal que recopilamos en línea de la mejor manera posible. TACOEMPLEOS resguarda la Información Personal de acuerdo con estándares y procedimientos de seguridad establecidos y comúnmente utilizados en la industria, y continuamente evaluamos nueva tecnología para proteger esa información de la mejor manera posible.
                 </p>
 
                 <p>
@@ -385,7 +315,6 @@ export default function PoliticaPrivacidad() {
 
                 <p>
                   <strong>9.2.</strong> Le informamos que en su condición de padre, tutor legal o representante será el responsable de que sus hijos menores y/o las personas que la legislación aplicable reconozca como incapaces bajo su tutela accedan a la Plataforma, por lo que recomendamos enfáticamente tomar las precauciones oportunas durante la navegación en la Plataforma. A este fin, le informamos que algunos navegadores permiten configurarse para que los niños no puedan acceder a páginas determinadas.
-
                 </p>
               </div>
             </section>
@@ -433,7 +362,7 @@ export default function PoliticaPrivacidad() {
               </h2>
               <div className="space-y-4 text-justify leading-relaxed">
                 <p>
-                TACOEMPLEOS se reserva el derecho a modificar y actualizar esta Política periódicamente, en cuyo caso la política actualizada se publicará en esta misma Plataforma, siendo obligación del Usuario revisar regularmente esta sección a fin de informarse de cualquier cambio que se pueda haber producido. De todos modos, TACOEMPLEOS podrá cursar una comunicación a su cuenta de correo electrónico registrada a efectos de informarle sobre el cambio en la Política, no siendo obligación de TACOEMPLEOS notificarle dichos cambios.
+                  TACOEMPLEOS se reserva el derecho a modificar y actualizar esta Política periódicamente, en cuyo caso la política actualizada se publicará en esta misma Plataforma, siendo obligación del Usuario revisar regularmente esta sección a fin de informarse de cualquier cambio que se pueda haber producido. De todos modos, TACOEMPLEOS podrá cursar una comunicación a su cuenta de correo electrónico registrada a efectos de informarle sobre el cambio en la Política, no siendo obligación de TACOEMPLEOS notificarle dichos cambios.
                 </p>
               </div>
             </section>
@@ -445,10 +374,10 @@ export default function PoliticaPrivacidad() {
               </h2>
               <div className="space-y-4 text-justify leading-relaxed">
                 <p>
-                  <strong>13.1.</strong> Responsable: A los fines de la presente Política de Privacidad, se considera responsable del tratamiento de los datos personales a TacoEmpleos. Para cualquier consulta, reclamo o solicitud vinculada al tratamiento de datos, podés contactarnos al correo: legales@tacoempleos.com.mx
+                  <strong>13.1.</strong> Responsable: A los fines de la presente Política de Privacidad, se considera responsable del tratamiento de los datos personales a TacoEmpleos. Para cualquier consulta, reclamo o solicitud vinculada al tratamiento de datos, podés contactarnos al correo: sebi@tacoempleos.com.mx
                 </p>
                 <p>
-                  Domicilio electrónico para oír y recibir notificaciones: legales@tacoempleos.com.mx
+                  Domicilio electrónico para oír y recibir notificaciones: sebi@tacoempleos.com.mx
                 </p>
 
                 <p>
@@ -461,15 +390,16 @@ export default function PoliticaPrivacidad() {
 
                 <p>
                   <strong>13.4.</strong> Usted tiene derecho de acceder a la Información Personal que poseemos y a los detalles de su tratamiento, así como a rectificarlos en caso de ser inexactos o incompletos, cancelarlos u oponerse o limitar su tratamiento para fines específicos. Para ejercer los derechos de acceso, rectificación, cancelación u oposición, deberá cumplir con los requerimientos del artículo 29 de la Ley Federal de Protección de Datos en Posesión de los Particulares, para lo cual deberá presentar una solicitud por escrito debidamente firmada, a TACOEMPLEOS, y deberá identificarse a satisfacción de TACOEMPLEOS, mediante documento oficial. TACOEMPLEOS dará respuesta a cada solicitud dentro del plazo máximo que corresponda conforme a la legislación aplicable vigente a la fecha de la solicitud, a partir de que se reciba la solicitud que cumpla con los requerimientos del artículo 29 de la Ley Federal de Protección de Datos en Posesión de los Particulares y que se presente la mencionada solicitud e identificación en los términos indicados.
-
                 </p>
 
                 <p>
-                  <strong>13.5.</strong> El contacto en México para ejercer los derechos de acceso, rectificación, cancelación u oposición de la Información Personal es: legales@tacoempleos.com.mx (el "Canal de Contacto").
+                  <strong>13.5.</strong> El contacto en México para ejercer los derechos de acceso, rectificación, cancelación u oposición de la Información Personal es: sebi@tacoempleos.com.mx (el "Canal de Contacto").
                 </p>
 
-                <p className="font-semibold">
-                  Esta Política de Privacidad fue actualizada por última vez el 22 de Julio de 2025.
+                <hr className="border-gray-300 dark:border-gray-600 my-8" />
+
+                <p className="font-semibold text-center">
+                  <strong>Esta Política de Privacidad fue actualizada por última vez el 22 de Julio de 2025.</strong>
                 </p>
               </div>
             </section>
@@ -477,8 +407,6 @@ export default function PoliticaPrivacidad() {
           </div>
         </div>
       </div>
-      
-      <Footer />
     </div>
   );
 }

@@ -55,6 +55,11 @@ export default function HeroSearch() {
       return
     }
     
+    if (!position) {
+      setError('Por favor selecciona una posición')
+      return
+    }
+    
     if (!csrfToken) {
       setError('Error de seguridad. Por favor recarga la página.')
       return
@@ -178,7 +183,7 @@ export default function HeroSearch() {
                   {showPositionDropdown && (
                     <div className="space-y-2 animate-in slide-in-from-top-2 duration-200">
                       <label className="block text-sm font-medium text-gray-700">
-                        ¿Qué posición te interesa? (Opcional)
+                        ¿Qué posición te interesa? <span className="text-red-500">*</span>
                       </label>
                       <select
                         value={position}
@@ -186,7 +191,7 @@ export default function HeroSearch() {
                         className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                         disabled={isSubmitting}
                       >
-                        <option value="">Selecciona una posición (opcional)</option>
+                        <option value="">Selecciona una posición</option>
                         {positions.map((pos) => (
                           <option key={pos} value={pos}>
                             {pos}

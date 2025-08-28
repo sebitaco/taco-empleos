@@ -241,7 +241,7 @@ export default function JobPostingForm() {
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-white mb-4">
-              Publica tu Vacante <span className="text-blue-200 text-2xl font-normal">Sin Costo</span>
+              Publica tu Vacante <span className="text-3xl font-bold text-blue-200">Sin Costo</span>
             </h2>
             <p className="text-lg text-blue-100">
               Comparte los detalles de tu vacante y la revisaremos en las próximas horas para publicarla.

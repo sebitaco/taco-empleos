@@ -1,7 +1,5 @@
 "use client";
 
-import Navigation from "@/components/Header";
-import Footer from "@/components/Footer";
 import { useEffect } from "react";
 
 export default function TerminosCondiciones() {
@@ -47,7 +45,6 @@ export default function TerminosCondiciones() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
-      <Navigation />
       
       <div className="container mx-auto px-4 py-12 max-w-4xl">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
@@ -836,7 +833,7 @@ export default function TerminosCondiciones() {
                 <p>
                   <strong>12.1.</strong> TACOEMPLEOS se refiere a la plataforma
                   tacoempleos.com.mx, cuyo domicilio electrónico para oír y
-                  recibir notificaciones es legales@tacoempleos.com.mx.
+                  recibir notificaciones es sebi@tacoempleos.com.mx.
                 </p>
                 <p>
                   <strong>12.2. Ley aplicable y jurisdicción.</strong> Estos
@@ -858,8 +855,6 @@ export default function TerminosCondiciones() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 }
